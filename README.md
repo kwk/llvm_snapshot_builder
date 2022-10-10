@@ -10,6 +10,8 @@ $ pip install llvm_snapshot_builder
 
 ## Usage
 
+For a more in-depth example, take a look at [the example in the documentation](https://llvm_snapshot_builder.readthedocs.io/en/latest/example.html).
+
 - TODO
 
 ## Contributing
