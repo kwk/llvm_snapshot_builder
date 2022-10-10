@@ -60,6 +60,8 @@ def get_action(arg_parser: argparse.ArgumentParser) -> CoprAction:
 
 
 def build_main_parser() -> argparse.ArgumentParser:
+    """ Returns the main parser for command line arguments """
+
     proj_kwargs = {
         "dest": 'proj',
         "metavar": '"OWNER/PROJECT"',
@@ -74,17 +76,17 @@ def build_main_parser() -> argparse.ArgumentParser:
         "type": str,
         "help": "list of chroots to work on"
     }
-    parser_main = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(
         description='Interact with the LLVM snapshot builds on Fedora Copr.',
         allow_abbrev=True)
-    parser_main.add_argument(
+    parser.add_argument(
         '--version',
         action='version',
         version='%(prog)s 1.0')
 
     # Subparsers
 
-    subparsers = parser_main.add_subparsers(
+    subparsers = parser.add_subparsers(
         help='sub-command --help', dest="command")
 
     # FORK
@@ -201,7 +203,7 @@ def build_main_parser() -> argparse.ArgumentParser:
         type=int,
         help="delete the project to be created after a given number of days (default: 0 which means \"keep forever\")")
 
-    return parser_main
+    return parser
 
 
 if __name__ == "__main__":
