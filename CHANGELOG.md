@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.5 (2022-10-10)
+
+
 ## v0.0.4 (2022-10-10)
 ### Documentation
 * Add status section to readme ([`0f73e64`](https://github.com/kwk/llvm_snapshot_builder/commit/0f73e64719b30d8e80bfde87e66b3545231b8f31))
