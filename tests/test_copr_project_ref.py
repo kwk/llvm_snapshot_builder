@@ -14,13 +14,33 @@ class TestCoprProjectRef(unittest.TestCase):
         self.assertEqual(ref.name, "bar")
         self.assertEqual(str(ref), "foo/bar")
 
-    def test_ctor_with_ref(self):
-        """ Test that creation from another ref works. """
+    def test_ctor_invalid_owner_project(self):
+        with self.assertRaises(ValueError) as ex:
+            ref = CoprProjectRef("foo")
+        self.assertEqual(str(ex.exception), "not enough values to unpack (expected 2, got 1)")
+
+    def test_ctor_empty_owner_and_project(self):
+        with self.assertRaises(ValueError) as ex:
+            ref = CoprProjectRef("/")
+        self.assertEqual(str(ex.exception), "ownername MUST NOT be empty")
+
+    def test_ctor_empty_project(self):
+        with self.assertRaises(ValueError) as ex:
+            ref = CoprProjectRef("foo/")
+        self.assertEqual(str(ex.exception), "projectname MUST NOT be empty")
+
+    def test_ctor_empty_ownername(self):
+        with self.assertRaises(ValueError) as ex:
+            ref = CoprProjectRef("/bar")
+        self.assertEqual(str(ex.exception), "ownername MUST NOT be empty")
+
+    def test_ctor_with_ref_object(self):
+        """ Test that creation from another CoprProjectRef object works. """
         orig = CoprProjectRef("foo/bar")
         ref = CoprProjectRef(orig)
-        self.assertEqual(ref.owner, "foo")
-        self.assertEqual(ref.name, "bar")
-        self.assertEqual(str(ref), "foo/bar")
+        self.assertEqual(ref.owner, orig.owner)
+        self.assertEqual(ref.name, orig.name)
+        self.assertEqual(str(ref), f"{orig.owner}/{orig.name}")
 
     def test_ref_property(self):
         """ Test the ref property works. """

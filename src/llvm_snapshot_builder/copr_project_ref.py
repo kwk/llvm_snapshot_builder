@@ -19,6 +19,11 @@ class CoprProjectRef(object):
             self.__projectname = owner_project.name
         else:
             raise TypeError(f"owner_project must be a string or CoprProjectRef but is '{type(owner_project)}': {owner_project}")
+        
+        if self.__ownername is None or self.__ownername == "":
+            raise ValueError("ownername MUST NOT be empty")
+        if self.__projectname is None or self.__projectname == "":
+            raise ValueError("projectname MUST NOT be empty")
         super().__init__(**kwargs)
 
     @property
