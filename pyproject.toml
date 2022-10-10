@@ -18,7 +18,7 @@ keywords = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4"
+python = ">=3.9,<4"
 copr = "^1.123"
 
 [tool.poetry.dev-dependencies]
