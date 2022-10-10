@@ -47,7 +47,7 @@ tests = ["pytest"]
 
 [[package]]
 name = "astroid"
-version = "2.12.10"
+version = "2.12.11"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
@@ -416,21 +416,6 @@ perf = ["ipython"]
 testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 (<5)", "pytest-cov", "pytest-enabler (>=1.3)", "packaging", "pyfakefs", "flufl.flake8", "pytest-perf (>=0.9.2)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)", "importlib-resources (>=1.3)"]
 
 [[package]]
-name = "importlib-resources"
-version = "5.10.0"
-description = "Read resources from Python packages"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-zipp = {version = ">=3.1.0", markers = "python_version < \"3.10\""}
-
-[package.extras]
-docs = ["sphinx (>=3.5)", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "furo", "jaraco.tidelift (>=1.4)"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 (<5)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)"]
-
-[[package]]
 name = "iniconfig"
 version = "1.1.1"
 description = "iniconfig: brain-dead simple config-ini parsing"
@@ -611,8 +596,6 @@ python-versions = ">=3.7"
 
 [package.dependencies]
 attrs = ">=17.4.0"
-importlib-resources = {version = ">=1.4.0", markers = "python_version < \"3.9\""}
-pkgutil-resolve-name = {version = ">=1.3.10", markers = "python_version < \"3.9\""}
 pyrsistent = ">=0.14.0,<0.17.0 || >0.17.0,<0.17.1 || >0.17.1,<0.17.2 || >0.17.2"
 
 [package.extras]
@@ -980,7 +963,7 @@ webpdf = ["pyppeteer (>=1,<1.1)"]
 
 [[package]]
 name = "nbformat"
-version = "5.6.1"
+version = "5.7.0"
 description = "The Jupyter Notebook format"
 category = "dev"
 optional = false
@@ -1095,14 +1078,6 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 testing = ["nose", "coverage"]
 
 [[package]]
-name = "pkgutil-resolve-name"
-version = "1.3.10"
-description = "Resolve a name to an object."
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "platformdirs"
 version = "2.5.2"
 description = "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
@@ -1215,14 +1190,14 @@ plugins = ["importlib-metadata"]
 
 [[package]]
 name = "pylint"
-version = "2.15.3"
+version = "2.15.4"
 description = "python code static checker"
 category = "dev"
 optional = false
 python-versions = ">=3.7.2"
 
 [package.dependencies]
-astroid = ">=2.12.10,<=2.14.0-dev0"
+astroid = ">=2.12.11,<=2.14.0-dev0"
 colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
 dill = ">=0.2"
 isort = ">=4.2.5,<6"
@@ -1958,8 +1933,8 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 
 
 [metadata]
 lock-version = "1.1"
-python-versions = ">=3.8,<4"
-content-hash = "7831c603d13cd67c4910540425f8ac52f754943d87d389a93716ed612011bb2b"
+python-versions = ">=3.9,<4"
+content-hash = "50b7c64bb0bf1bbde49d095f43f871230684cff4b8019c9f09eff76f7820f177"
 
 [metadata.files]
 alabaster = []
@@ -1999,7 +1974,6 @@ greenlet = []
 idna = []
 imagesize = []
 importlib-metadata = []
-importlib-resources = []
 iniconfig = []
 invoke = []
 ipykernel = []
@@ -2044,7 +2018,6 @@ parso = []
 pexpect = []
 pickleshare = []
 pkginfo = []
-pkgutil-resolve-name = []
 platformdirs = []
 pluggy = []
 prometheus-client = []
