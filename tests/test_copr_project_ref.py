@@ -22,6 +22,11 @@ class TestCoprProjectRef(unittest.TestCase):
         self.assertEqual(ref.name, "bar")
         self.assertEqual(str(ref), "foo/bar")
 
+    def test_ref_property(self):
+        """ Test the ref property works. """
+        orig = CoprProjectRef("foo/bar")
+        self.assertEqual(orig.ref, "foo/bar")
+
 
 if __name__ == '__main__':
     unittest.main()
