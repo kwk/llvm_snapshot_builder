@@ -2,6 +2,14 @@
 
 Builds LLVM snapshots on Copr
 
+## Status
+
+[![Documentation Status](https://readthedocs.org/projects/llvm_snapshot_builder/badge/?version=latest)](https://llvm_snapshot_builder.readthedocs.io/en/latest/?badge=latest)
+[![CodeQL](https://github.com/kwk/llvm_snapshot_builder/actions/workflows/codeql.yml/badge.svg)](https://github.com/kwk/llvm_snapshot_builder/actions/workflows/codeql.yml)
+[![ci-cd](https://github.com/kwk/llvm_snapshot_builder/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/kwk/llvm_snapshot_builder/actions/workflows/ci-cd.yml)
+[![codecov](https://codecov.io/gh/kwk/llvm_snapshot_builder/branch/main/graph/badge.svg?token=ASSPTOL3JU)](https://codecov.io/gh/kwk/llvm_snapshot_builder)
+[![release](https://img.shields.io/github/release/kwk/llvm_snapshot_builder.svg)](https://github.com/kwk/llvm_snapshot_builder/releases)
+
 ## Installation
 
 ```bash
