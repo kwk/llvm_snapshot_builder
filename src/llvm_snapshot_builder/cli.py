@@ -77,7 +77,8 @@ def build_main_parser() -> argparse.ArgumentParser:
         "metavar": '"OWNER/PROJECT"',
         "type": str,
         "required": True,
-        "help": "owner (or group) and project name of the copr project to work with (e.g. 'foo/bar')"
+        "help": "owner (or group) and project name of the copr project to "\
+            "work with (e.g. 'foo/bar')"
     }
     chroots_kwargs = {
         "dest": 'chroots',
@@ -90,7 +91,7 @@ def build_main_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description='Interact with the LLVM snapshot builds on Fedora Copr.',
         allow_abbrev=True)
-    
+
     parser.add_argument(
         '--version',
         action='version',
@@ -213,7 +214,8 @@ def build_main_parser() -> argparse.ArgumentParser:
         dest='delete_after_days',
         default=0,
         type=int,
-        help="delete the project to be created after a given number of days (default: 0 which means \"keep forever\")")
+        help="delete the project to be created after a given number of days "\
+            "(default: 0 which means \"keep forever\")")
 
     return parser
 
