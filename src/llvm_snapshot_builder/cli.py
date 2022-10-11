@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 """
 llvm_snapshot_builder.cli provides a CLI interface to the llvm_snapshot_builder
 """
@@ -17,6 +19,7 @@ from .actions.make_or_edit_project import CoprActionMakeOrEditProject
 from .actions.project_exists import CoprActionProjectExists
 from .actions.regenerate_repos import CoprActionRegenerateRepos
 from .copr_project_ref import CoprProjectRef
+from .__init__ import __version__
 
 
 def get_action(
@@ -73,6 +76,7 @@ def build_main_parser() -> argparse.ArgumentParser:
         "dest": 'proj',
         "metavar": '"OWNER/PROJECT"',
         "type": str,
+        "required": True,
         "help": "owner (or group) and project name of the copr project to work with (e.g. 'foo/bar')"
     }
     chroots_kwargs = {
@@ -86,10 +90,11 @@ def build_main_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description='Interact with the LLVM snapshot builds on Fedora Copr.',
         allow_abbrev=True)
+    
     parser.add_argument(
         '--version',
         action='version',
-        version='%(prog)s 1.0')
+        version=f"llvm_snapshot_builder {__version__}")
 
     # Subparsers
 
