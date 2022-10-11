@@ -37,6 +37,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
           GITHUB_LOGIN: ${{ secrets.GH_API_LOGIN }}
+          COPR_LOGIN: ${{ secrets.COPR_LOGIN }}
+          COPR_USERNAME: ${{ secrets.COPR_USERNAME }}
+          COPR_TOKEN: ${{ secrets.COPR_TOKEN }}
+          COPR_URL: ${{ secrets.COPR_URL }}
         run: poetry run pytest tests/ --cov=llvm_snapshot_builder --cov-report=xml -v
 
       - name: Use Codecov to track coverage
