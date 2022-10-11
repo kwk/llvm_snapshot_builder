@@ -20,7 +20,11 @@ $ pip install llvm_snapshot_builder
 
 For a more in-depth example, take a look at [the example in the documentation](https://llvm_snapshot_builder.readthedocs.io/en/latest/example.html).
 
-- TODO
+After installing you can explore the CLI program with:
+
+```bash
+python -m llvm_snapshot_builder.cli --help
+```
 
 ## Contributing
 
