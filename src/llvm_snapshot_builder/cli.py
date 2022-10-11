@@ -1,5 +1,5 @@
 """
-llvm_snapshot_builder.prog provides a CLI interface to the llvm_snapshot_builder
+llvm_snapshot_builder.cli provides a CLI interface to the llvm_snapshot_builder
 """
 
 import argparse
@@ -211,6 +211,7 @@ def build_main_parser() -> argparse.ArgumentParser:
         help="delete the project to be created after a given number of days (default: 0 which means \"keep forever\")")
 
     return parser
+
 
 if __name__ == "__main__":
     sys.exit(0 if get_action(build_main_parser()).run() else 1)
