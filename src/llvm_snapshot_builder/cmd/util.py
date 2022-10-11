@@ -187,14 +187,14 @@ def build_main_parser() -> argparse.ArgumentParser:
         '--description_file',
         dest='description_file',
         default="project-description.md",
-        required=True,
+        required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project description in markdown format")
     parser_create_or_edit_project.add_argument(
         '--instructions_file',
         dest='instructions_file',
         default="project-instructions.md",
-        required=True,
+        required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project instructions in markdown format")
     parser_create_or_edit_project.add_argument(

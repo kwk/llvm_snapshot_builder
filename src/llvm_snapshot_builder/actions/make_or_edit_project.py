@@ -23,8 +23,8 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
 
     def __init__(self,
                  proj: Union[CoprProjectRef, str],
-                 description: str,
-                 instructions: str,
+                 description: str = "",
+                 instructions: str = "",
                  chroots: list[str] = None,
                  delete_after_days: int = 0, **kwargs):
         """
