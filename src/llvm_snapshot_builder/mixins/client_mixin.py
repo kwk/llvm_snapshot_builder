@@ -2,6 +2,7 @@
 CoprClientMixin
 """
 
+import logging
 import os
 from copr.v3 import Client
 
@@ -10,7 +11,7 @@ class CoprClientMixin(object):
     """ Any class that needs a copr client property can derive from this class
     """
 
-    def __init__(self, client:"CoprClientMixin"=None, **kwargs):
+    def __init__(self, client: "CoprClientMixin" = None, **kwargs):
         """
         Initializes the mixin.
 
@@ -19,7 +20,6 @@ class CoprClientMixin(object):
         """
         self.__client = client
         super().__init__(**kwargs)
-        
 
     @property
     def client(self):
@@ -45,6 +45,8 @@ class CoprClientMixin(object):
         client = None
         if {"COPR_URL", "COPR_LOGIN", "COPR_TOKEN",
                 "COPR_USERNAME"} <= set(os.environ):
+            logging.debug(
+                "create copr client config from environment variables")
             config = {'copr_url': os.environ['COPR_URL'],
                       'login': os.environ['COPR_LOGIN'],
                       'token': os.environ['COPR_TOKEN'],
@@ -52,5 +54,6 @@ class CoprClientMixin(object):
             client = Client(config)
             assert client.config == config
         else:
+            logging.debug("create copr client config from file")
             client = Client.create_from_config_file()
         return client

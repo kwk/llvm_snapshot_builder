@@ -5,6 +5,7 @@
 CoprPackageBuilderMixin
 """
 
+import logging
 from typing import Union
 from copr.v3 import CoprRequestException
 from ..copr_project_ref import CoprProjectRef
@@ -41,11 +42,11 @@ class CoprPackageBuilderMixin(object):
         build = None
         proj = CoprProjectRef(proj)
         try:
-            print(
-                f"Creating build for package {package_name} in {proj} for chroots {chroots} (build after: {build_after_id})")
+            logging.info(
+                f"build package {package_name} in {proj} for chroots {chroots} (build after: {build_after_id})")
 
-            print(
-                "Adjusting chroots to have --with=snapshot_build and llvm-snapshot-builder package installed")
+            logging.info(
+                "adjust chroots to have --with=snapshot_build and llvm-snapshot-builder package installed")
             for chroot in chroots:
                 self.client.project_chroot_proxy.edit(
                     ownername=proj.owner,
@@ -72,7 +73,7 @@ class CoprPackageBuilderMixin(object):
                 },
             )
         except CoprRequestException as ex:
-            print(f"\nERROR: {ex}")
+            logging.exception(ex)
             raise ex
-        print(f" (build-id={build.id}, state={build.state})")
+        print(f"(build-id={build.id}, state={build.state})")
         return build

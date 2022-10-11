@@ -2,6 +2,7 @@
 CoprActionMakeOrEditPackages
 """
 
+import logging
 from typing import Union
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
@@ -70,15 +71,15 @@ class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
                 }
             }
             if packagename in existingpackagenames:
-                print(
-                    f"Resetting and editing package {packagename} in {self.__proj}")
+                logging.info(
+                    f"reset and editing package {packagename} in {self.__proj}")
                 self.client.package_proxy.reset(
                     ownername=self.__proj.owner,
                     projectname=self.__proj.name,
                     packagename=packagename)
                 self.client.package_proxy.edit(**packageattrs)
             else:
-                print(
-                    f"Creating package {packagename} in {self.__proj}")
+                logging.info(
+                    f"create package {packagename} in {self.__proj}")
                 self.client.package_proxy.add(**packageattrs)
         return True

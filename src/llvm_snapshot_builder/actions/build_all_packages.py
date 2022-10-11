@@ -2,6 +2,7 @@
 CoprActionBuildAllPackages
 """
 
+import logging
 from typing import Union
 from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
 from ..mixins.client_mixin import CoprClientMixin
@@ -39,7 +40,7 @@ class CoprActionBuildAllPackages(
 
         p = self.__proj
         for chroot in self.__chroots:
-            print(f"CHROOT: {chroot}")
+            logging.info(f"build all packages in chroot: {chroot}")
             python_lit_build = self.build(p, "python-lit", [chroot])
             llvm_build = self.build(p, "llvm", [chroot], python_lit_build.id)
             self.build(p, "lld", [chroot], llvm_build.id)

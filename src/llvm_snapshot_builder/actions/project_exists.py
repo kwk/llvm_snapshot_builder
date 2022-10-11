@@ -2,6 +2,7 @@
 CoprActionProjectExists
 """
 
+import logging
 from typing import Union
 from copr.v3 import CoprNoResultException
 from ..mixins.client_mixin import CoprClientMixin
@@ -27,7 +28,9 @@ class CoprActionProjectExists(CoprAction, CoprClientMixin):
         try:
             self.client.project_proxy.get(self.__proj.owner, self.__proj.name)
         except CoprNoResultException:
+            logging.info(f"project does not exists {self.__proj}")
             print("no")
             return False
+        logging.info(f"project exists {self.__proj}")
         print("yes")
         return True

@@ -2,6 +2,7 @@
 CoprActionCancelBuilds
 """
 
+import logging
 from ..mixins.build_walker_mixin import CoprBuildWalkerMixin
 from ..mixins.client_mixin import CoprClientMixin
 from .action import CoprAction
@@ -34,10 +35,10 @@ class CoprActionCancelBuilds(
 
     def run(self) -> bool:
         """ Runs the action. """
-        print(f"Canceling builds with these states: {self.cancel_states}")
+        logging.info(f"cancel builds with these states: {self.cancel_states}")
 
         def cancel_build(build) -> bool:
-            print(f"Canceling build {build.id}")
+            logging.info(f"cancel build {build.id}")
             self.client.build_proxy.cancel(build.id)
             return True
         self.walk(func=cancel_build)

@@ -4,6 +4,7 @@
 CoprActionBuildPackages
 """
 
+import logging
 from typing import Union
 from ..copr_project_ref import CoprProjectRef
 from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
@@ -54,7 +55,8 @@ class CoprActionBuildPackages(
         """ Runs the action. """
 
         for chroot in self.__chroots:
-            print(f"CHROOT: {chroot}")
+            logging.info(
+                f"build packages ({self.__package_names}) in chroot: {chroot}")
             previous_build_id = self.__wait_on_build_id
             for packagename in self.__package_names:
                 build = self.build(
@@ -64,9 +66,9 @@ class CoprActionBuildPackages(
                     build_after_id=previous_build_id)
                 if build != dict():
                     previous_build_id = build.id
-                    print(
+                    logging.info(
                         f"(build-id={previous_build_id}, state={build.state})")
                 else:
-                    print(
+                    logging.info(
                         f"skipped build of package {packagename} in chroot {chroot}")
         return True

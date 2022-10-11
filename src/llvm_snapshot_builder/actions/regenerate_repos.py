@@ -22,6 +22,7 @@ class CoprActionRegenerateRepos(CoprClientMixin, CoprAction):
 
     def run(self) -> bool:
         """ Runs the action. """
+        logging.info(f"regenerate repos for project {self.__proj}")
         self.client.project_proxy.regenerate_repos(
             ownername=self.__proj.owner, projectname=self.__proj.name)
         return True

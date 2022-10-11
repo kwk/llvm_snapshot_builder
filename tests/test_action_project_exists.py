@@ -1,10 +1,8 @@
 """ Tests for llvm_snapshot_builder """
 
-import os
 import unittest
 import uuid
 from llvm_snapshot_builder.actions.project_exists import CoprActionProjectExists
-from llvm_snapshot_builder.copr_project_ref import CoprProjectRef
 
 
 class TestCoprActionProjectExists(unittest.TestCase):

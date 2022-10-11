@@ -2,6 +2,7 @@
 CoprActionMakeOrEditProject
 """
 
+import logging
 from typing import Union
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
@@ -54,8 +55,7 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
 
         delete_after_days = None if self.__delete_after_days == 0 else self.__delete_after_days
         if self.__proj.name in existingproject_names:
-            print(
-                f"Found project {self.__proj}. Updating...")
+            logging.info(f"found project {self.__proj}, updating...")
 
             chroots = [] if self.__chroots is None else self.__chroots
 
@@ -67,7 +67,8 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
 
             diff_chroots = set(chroots).difference(new_chroots)
             if diff_chroots != set():
-                print(f"Adding these chroots to the project: {diff_chroots}")
+                logging.info(
+                    f"add these chroots to the project: {diff_chroots}")
             new_chroots.update(chroots)
 
             self.client.project_proxy.edit(
@@ -84,7 +85,7 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
                 delete_after_days=delete_after_days)
             return True
 
-        print(f"Creating project {self.__proj}")
+        logging.info(f"create project {self.__proj}")
         # NOTE: devel_mode=True means that one has to manually create the
         # repo.
 

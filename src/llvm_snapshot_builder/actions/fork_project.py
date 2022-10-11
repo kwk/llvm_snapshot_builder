@@ -2,6 +2,7 @@
 CoprActionForkProject
 """
 
+import logging
 from typing import Union
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
@@ -29,6 +30,7 @@ class CoprActionForkProject(CoprAction, CoprClientMixin):
 
     def run(self) -> bool:
         """ Runs the action. """
+        logging.info(f"fork project {self.__source} into project {self.__target}")
         self.client.project_proxy.fork(
             ownername=self.__source.owner,
             projectname=self.__source.name,

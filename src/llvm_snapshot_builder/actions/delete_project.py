@@ -2,6 +2,7 @@
 CoprActionDeleteProject
 """
 
+import logging
 from typing import Union
 from copr.v3 import CoprNoResultException
 from ..mixins.client_mixin import CoprClientMixin
@@ -22,7 +23,7 @@ class CoprActionDeleteProject(CoprAction, CoprClientMixin):
 
     def run(self) -> bool:
         """ Runs the action. """
-        print(f"Deleting project {self.__proj}")
+        logging.info(f"delete project {self.__proj} and cancel running builds before")
         CoprActionCancelBuilds(proj=self.__proj, client=self.client).run()
         try:
             self.client.project_proxy.delete(

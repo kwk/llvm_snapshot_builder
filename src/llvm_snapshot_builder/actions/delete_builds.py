@@ -2,6 +2,7 @@
 CoprActionDeleteBuilds
 """
 
+import logging
 from ..mixins.client_mixin import CoprClientMixin
 from ..mixins.build_walker_mixin import CoprBuildWalkerMixin
 from .action import CoprAction
@@ -34,8 +35,8 @@ class CoprActionDeleteBuilds(
 
     def run(self) -> bool:
         """ Runs the action. """
-        print(f"Deleting builds with these states: {self.delete_states}")
+        logging.info(f"delete builds with these states: {self.delete_states}")
         self.walk(func=None)
-        print(f"Deleting these filtered builds {self.filtered_build_ids}")
+        logging.info(f"delete these filtered builds {self.filtered_build_ids}")
         self.client.build_proxy.delete_list(self.filtered_build_ids)
         return True
