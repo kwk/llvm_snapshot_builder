@@ -5,18 +5,18 @@ interface.
 
 import argparse
 
-from src.llvm_snapshot_builder.actions.action import CoprAction
-from src.llvm_snapshot_builder.actions.build_all_packages import CoprActionBuildAllPackages
-from src.llvm_snapshot_builder.actions.build_packages import CoprActionBuildPackages
-from src.llvm_snapshot_builder.actions.cancel_builds import CoprActionCancelBuilds
-from src.llvm_snapshot_builder.actions.delete_builds import CoprActionDeleteBuilds
-from src.llvm_snapshot_builder.actions.delete_project import CoprActionDeleteProject
-from src.llvm_snapshot_builder.actions.fork_project import CoprActionForkProject
-from src.llvm_snapshot_builder.actions.make_or_edit_packages import CoprActionMakeOrEditPackages
-from src.llvm_snapshot_builder.actions.make_or_edit_project import CoprActionMakeOrEditProject
-from src.llvm_snapshot_builder.actions.project_exists import CoprActionProjectExists
-from src.llvm_snapshot_builder.actions.regenerate_repos import CoprActionRegenerateRepos
-from src.llvm_snapshot_builder.copr_project_ref import CoprProjectRef
+from ..actions.action import CoprAction
+from ..actions.build_all_packages import CoprActionBuildAllPackages
+from ..actions.build_packages import CoprActionBuildPackages
+from ..actions.cancel_builds import CoprActionCancelBuilds
+from ..actions.delete_builds import CoprActionDeleteBuilds
+from ..actions.delete_project import CoprActionDeleteProject
+from ..actions.fork_project import CoprActionForkProject
+from ..actions.make_or_edit_packages import CoprActionMakeOrEditPackages
+from ..actions.make_or_edit_project import CoprActionMakeOrEditProject
+from ..actions.project_exists import CoprActionProjectExists
+from ..actions.regenerate_repos import CoprActionRegenerateRepos
+from ..copr_project_ref import CoprProjectRef
 
 
 def get_action(
