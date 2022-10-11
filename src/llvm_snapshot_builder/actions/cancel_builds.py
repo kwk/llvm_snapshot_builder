@@ -2,9 +2,9 @@
 CoprActionCancelBuilds
 """
 
-from .copr_build_walker_mixin import CoprBuildWalkerMixin
-from .copr_client_mixin import CoprClientMixin
-from .copr_action import CoprAction
+from ..mixins.build_walker_mixin import CoprBuildWalkerMixin
+from ..mixins.client_mixin import CoprClientMixin
+from .action import CoprAction
 
 
 class CoprActionCancelBuilds(

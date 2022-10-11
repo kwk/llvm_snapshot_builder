@@ -1,7 +1,7 @@
 """ Tests for llvm_snapshot_builder """
 
 import unittest
-from llvm_snapshot_builder import CoprProjectRef
+from ..src.llvm_snapshot_builder import CoprProjectRef
 
 
 class TestCoprProjectRef(unittest.TestCase):

@@ -3,7 +3,7 @@ CoprBuildWalkerMixin
 """
 
 from typing import Callable
-from .copr_project_ref import CoprProjectRef
+from ..copr_project_ref import CoprProjectRef
 
 
 class CoprBuildWalkerMixin(object):

@@ -4,13 +4,13 @@
 CoprActionBuildPackages
 """
 
-from .copr_project_ref import CoprProjectRef
-from .copr_package_builder_mixin import CoprPackageBuilderMixin
-from .copr_client_mixin import CoprClientMixin
-from .copr_action import CoprAction
-from .copr_project_ref import CoprProjectRef
-from .copr_action_make_or_edit_packages import CoprActionMakeOrEditPackages
-from .copr_action_make_or_edit_project import CoprActionMakeOrEditProject
+from ..copr_project_ref import CoprProjectRef
+from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
+from ..mixins.client_mixin import CoprClientMixin
+from .action import CoprAction
+from ..copr_project_ref import CoprProjectRef
+from .make_or_edit_packages import CoprActionMakeOrEditPackages
+from .make_or_edit_project import CoprActionMakeOrEditProject
 
 
 class CoprActionBuildPackages(

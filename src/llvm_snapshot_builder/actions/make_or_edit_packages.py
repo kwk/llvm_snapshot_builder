@@ -2,9 +2,9 @@
 CoprActionMakeOrEditPackages
 """
 
-from .copr_client_mixin import CoprClientMixin
-from .copr_project_ref import CoprProjectRef
-from .copr_action import CoprAction
+from ..mixins.client_mixin import CoprClientMixin
+from ..copr_project_ref import CoprProjectRef
+from .action import CoprAction
 
 
 class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):

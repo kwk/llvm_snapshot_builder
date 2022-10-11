@@ -3,10 +3,10 @@ CoprActionDeleteProject
 """
 
 from copr.v3 import CoprNoResultException
-from .copr_client_mixin import CoprClientMixin
-from .copr_action_cancel_builds import CoprActionCancelBuilds
-from .copr_project_ref import CoprProjectRef
-from .copr_action import CoprAction
+from ..mixins.client_mixin import CoprClientMixin
+from .cancel_builds import CoprActionCancelBuilds
+from ..copr_project_ref import CoprProjectRef
+from .action import CoprAction
 
 
 class CoprActionDeleteProject(CoprAction, CoprClientMixin):
