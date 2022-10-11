@@ -11,7 +11,8 @@ from copr.v3 import CoprRequestException
 from ..copr_project_ref import CoprProjectRef
 
 
-class CoprPackageBuilderMixin(object):
+# pylint: disable=too-few-public-methods
+class CoprPackageBuilderMixin:
     """
     The base class for package building Actions in Copr
 
@@ -38,6 +39,9 @@ class CoprPackageBuilderMixin(object):
             package_name (str): the package to build
             chroots (list[str]): the chroots to build in
             build_after_id (int): the build to build after
+
+        Raises:
+            CoprRequestException: if the build could not be created
         """
         build = None
         proj = CoprProjectRef(proj)
@@ -54,9 +58,11 @@ class CoprPackageBuilderMixin(object):
                     chrootname=chroot,
                     with_opts="snapshot_build",
                     additional_repos=[
-                        "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-snapshot-builder/" +
+                        "https://download.copr.fedorainfracloud.org/results/"\
+                            "%40fedora-llvm-team/llvm-snapshot-builder/",
                         chroot,
-                        "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/" +
+                        "https://download.copr.fedorainfracloud.org/results/"\
+                            "%40fedora-llvm-team/llvm-compat-packages/",
                         chroot,
                     ],
                     additional_packages="llvm-snapshot-builder")

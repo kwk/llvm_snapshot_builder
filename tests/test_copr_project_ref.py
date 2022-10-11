@@ -15,23 +15,28 @@ class TestCoprProjectRef(unittest.TestCase):
         self.assertEqual(str(ref), "foo/bar")
 
     def test_ctor_invalid_owner_project(self):
+        """ Test that creation with an invalid owner fails. """
         with self.assertRaises(ValueError) as ex:
-            ref = CoprProjectRef("foo")
-        self.assertEqual(str(ex.exception), "not enough values to unpack (expected 2, got 1)")
+            CoprProjectRef("foo")
+        self.assertEqual(str(ex.exception),
+                         "not enough values to unpack (expected 2, got 1)")
 
     def test_ctor_empty_owner_and_project(self):
+        """ Test that creation with an empty owner and project fails. """
         with self.assertRaises(ValueError) as ex:
-            ref = CoprProjectRef("/")
+            CoprProjectRef("/")
         self.assertEqual(str(ex.exception), "ownername MUST NOT be empty")
 
     def test_ctor_empty_project(self):
+        """ Test that creation with an empty project fails. """
         with self.assertRaises(ValueError) as ex:
-            ref = CoprProjectRef("foo/")
+            CoprProjectRef("foo/")
         self.assertEqual(str(ex.exception), "projectname MUST NOT be empty")
 
     def test_ctor_empty_ownername(self):
+        """ Test that creation with an empty ownername fails. """
         with self.assertRaises(ValueError) as ex:
-            ref = CoprProjectRef("/bar")
+            CoprProjectRef("/bar")
         self.assertEqual(str(ex.exception), "ownername MUST NOT be empty")
 
     def test_ctor_with_ref_object(self):

@@ -15,7 +15,7 @@ class TestCoprActionProjectExists(unittest.TestCase):
 
     def test_existing_project(self):
         """ Test that @copr/copr project can be found. """
-        action = CoprActionProjectExists(f"@copr/copr")
+        action = CoprActionProjectExists("@copr/copr")
         self.assertTrue(action.run())
 
 

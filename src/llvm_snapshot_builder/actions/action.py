@@ -5,12 +5,13 @@ CoprAction
 from abc import ABC, abstractmethod
 
 
+# pylint: disable=too-few-public-methods
 class CoprAction(ABC):
+    """ The base class for all actions. """
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    """ Defines what a CoprAction needs to implement """
     @abstractmethod
     def run(self) -> bool:
         """ Runs the action. """
-        pass

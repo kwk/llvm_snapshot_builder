@@ -10,7 +10,6 @@ from ..copr_project_ref import CoprProjectRef
 from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
 from ..mixins.client_mixin import CoprClientMixin
 from .action import CoprAction
-from ..copr_project_ref import CoprProjectRef
 from .make_or_edit_packages import CoprActionMakeOrEditPackages
 from .make_or_edit_project import CoprActionMakeOrEditProject
 
@@ -64,7 +63,7 @@ class CoprActionBuildPackages(
                     packagename,
                     [chroot],
                     build_after_id=previous_build_id)
-                if build != dict():
+                if build != {}:
                     previous_build_id = build.id
                     logging.info(
                         f"(build-id={previous_build_id}, state={build.state})")

@@ -38,6 +38,7 @@ class CoprActionBuildAllPackages(
     def run(self) -> bool:
         """ Runs the action. """
 
+        # pylint: disable=invalid-name
         p = self.__proj
         for chroot in self.__chroots:
             logging.info(f"build all packages in chroot: {chroot}")

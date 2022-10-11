@@ -49,3 +49,7 @@ module-naming-style=snake_case
 
 # Naming style matching correct method names.
 method-naming-style=snake_case
+
+
+[MESSAGES CONTROL]
+disable=logging-fstring-interpolation

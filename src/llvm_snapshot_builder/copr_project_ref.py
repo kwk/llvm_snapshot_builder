@@ -5,21 +5,23 @@ CoprProjectRef
 from typing import Union
 
 
-class CoprProjectRef(object):
+class CoprProjectRef:
     """ CoprProjectRef is a reference to a Copr project by ownername and projectname. """
 
     def __init__(
             self,
             owner_project: Union[str, "CoprProjectRef"],
             ** kwargs):
+        """ Creates a new CoprProjectRef. """
         if str(owner_project) == owner_project:
             self.__ownername, self.__projectname = owner_project.split("/")
         elif isinstance(owner_project, CoprProjectRef):
             self.__ownername = owner_project.owner
             self.__projectname = owner_project.name
         else:
-            raise TypeError(f"owner_project must be a string or CoprProjectRef but is '{type(owner_project)}': {owner_project}")
-        
+            raise TypeError(
+                f"owner_project must be a string or CoprProjectRef but is '{type(owner_project)}': {owner_project}")
+
         if self.__ownername is None or self.__ownername == "":
             raise ValueError("ownername MUST NOT be empty")
         if self.__projectname is None or self.__projectname == "":

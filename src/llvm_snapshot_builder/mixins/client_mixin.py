@@ -7,7 +7,8 @@ import os
 from copr.v3 import Client
 
 
-class CoprClientMixin(object):
+# pylint: disable=too-few-public-methods
+class CoprClientMixin:
     """ Any class that needs a copr client property can derive from this class
     """
 

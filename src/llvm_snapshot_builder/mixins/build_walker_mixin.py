@@ -6,7 +6,7 @@ from typing import Union, Callable
 from ..copr_project_ref import CoprProjectRef
 
 
-class CoprBuildWalkerMixin(object):
+class CoprBuildWalkerMixin:
     """
     Allows you to walk over each build filtered by state and chroot.
     Make sure you use CoprClientMixin as well.

@@ -2,7 +2,7 @@
 
 import unittest
 import uuid
-from copr.v3.exceptions import CoprNoResultException 
+from copr.v3.exceptions import CoprNoResultException
 from llvm_snapshot_builder.actions.make_or_edit_project import CoprActionMakeOrEditProject
 from llvm_snapshot_builder.mixins.client_mixin import CoprClientMixin
 from llvm_snapshot_builder.actions.delete_project import CoprActionDeleteProject

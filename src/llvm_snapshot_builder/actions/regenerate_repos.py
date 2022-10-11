@@ -2,8 +2,8 @@
 CoprActionRegenerateRepos
 """
 
+import logging
 from typing import Union
-from ..mixins.build_walker_mixin import CoprBuildWalkerMixin
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
 from .action import CoprAction

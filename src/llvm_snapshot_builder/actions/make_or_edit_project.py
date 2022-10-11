@@ -16,12 +16,16 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
     Attributes:
 
         default_chroots (list): The default chroots to use for the project when creating
-        runtime_dependencies (list): List of external repositories (== dependencies, specified as baseurls) that will be automatically enabled together with this project repository.
+        runtime_dependencies (list): List of external repositories (== dependencies,
+                                     specified as baseurls) that will be automatically
+                                     enabled together with this project repository.
     """
 
     default_chroots = ["fedora-rawhide-x86_64"]
-    runtime_dependencies = "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/fedora-$releasever-$basearch"
+    runtime_dependencies = "https://download.copr.fedorainfracloud.org/results/" \
+        "%40fedora-llvm-team/llvm-compat-packages/fedora-$releasever-$basearch"
 
+    # pylint: disable=too-many-arguments
     def __init__(self,
                  proj: Union[CoprProjectRef, str],
                  description: str = "",
@@ -36,7 +40,8 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
             description (str): A descriptive text of the project to create or edit
             instructions (str): A text for the instructions of how to enable this project
             delete_after_days (int): How many days the project shall be kept (0 equals indefinite)
-            chroots (list[str]): What change roots shall be used for the project. Defaults to default_chroots (only upon creation).
+            chroots (list[str]): What change roots shall be used for the project.
+                                 Defaults to default_chroots (only upon creation).
         """
         self.__proj = CoprProjectRef(proj)
         self.__description = description
@@ -46,6 +51,7 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
             chroots = self.default_chroots
         self.__chroots = chroots
         super().__init__(**kwargs)
+    # pylint: enable=too-many-arguments
 
     def run(self) -> bool:
         """ Runs the action. """
@@ -65,8 +71,7 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
             existing_chroots = project.chroot_repos.keys()
             new_chroots = set(existing_chroots)
 
-            diff_chroots = set(chroots).difference(new_chroots)
-            if diff_chroots != set():
+            if (diff_chroots := set(chroots).difference(new_chroots)) != set():
                 logging.info(
                     f"add these chroots to the project: {diff_chroots}")
             new_chroots.update(chroots)
