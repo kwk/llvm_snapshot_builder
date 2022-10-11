@@ -37,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_API_TOKEN }}
           GITHUB_LOGIN: ${{ secrets.GH_API_LOGIN }}
-        run: poetry run pytest tests/ --cov=llvm_snapshot_builder --cov-report=xml
+        run: poetry run pytest tests/ --cov=llvm_snapshot_builder --cov-report=xml -v
 
       - name: Use Codecov to track coverage
         uses: codecov/codecov-action@v2
