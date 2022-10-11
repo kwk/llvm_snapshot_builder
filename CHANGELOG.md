@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.11 (2022-10-11)
+### Documentation
+* Add documentation on cli command embedded in the library ([`ce2eb4f`](https://github.com/kwk/llvm_snapshot_builder/commit/ce2eb4f4ded30aa0ac4ab40af39a1aa4c7e2a287))
+
 ## v0.0.10 (2022-10-11)
 
 
