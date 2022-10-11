@@ -2,6 +2,7 @@
 CoprActionRegenerateRepos
 """
 
+from typing import Union
 from ..mixins.build_walker_mixin import CoprBuildWalkerMixin
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
@@ -14,9 +15,9 @@ class CoprActionRegenerateRepos(CoprClientMixin, CoprAction):
     NOTE: The regeneration of repository data is not finished when this function returns.
     """
 
-    def __init__(self, proj: CoprProjectRef, ** kwargs):
+    def __init__(self, proj: Union[CoprProjectRef, str], ** kwargs):
         """ Initializes the action. """
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         super().__init__(**kwargs)
 
     def run(self) -> bool:

@@ -2,6 +2,7 @@
 CoprActionMakeOrEditPackages
 """
 
+from typing import Union
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
 from .action import CoprAction
@@ -29,7 +30,7 @@ class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
 
     def __init__(
             self,
-            proj: CoprProjectRef,
+            proj: Union[CoprProjectRef, str],
             packagenames: list[str] = None,
             **kwargs):
         """
@@ -40,7 +41,7 @@ class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
             projectname (str): the project's name to in which to create/edit the packages
             packagenames (list[str]): the packages to create/edit
         """
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         self.__packagenames = packagenames
         if packagenames is None:
             self.__packagenames = self.default_package_names

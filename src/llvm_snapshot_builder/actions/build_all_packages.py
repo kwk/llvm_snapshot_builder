@@ -2,6 +2,7 @@
 CoprActionBuildAllPackages
 """
 
+from typing import Union
 from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
 from ..mixins.client_mixin import CoprClientMixin
 from .action import CoprAction
@@ -23,14 +24,14 @@ class CoprActionBuildAllPackages(
 
     def __init__(
             self,
-            proj: CoprProjectRef,
+            proj: Union[CoprProjectRef, str],
             chroots: list[str] = None,
             ** kwargs):
         """ Initializes the action. """
         if chroots is None:
             chroots = CoprActionMakeOrEditProject.default_chroots
         self.__chroots = chroots
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         super().__init__(**kwargs)
 
     def run(self) -> bool:

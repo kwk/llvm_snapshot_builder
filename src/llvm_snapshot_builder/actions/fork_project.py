@@ -2,6 +2,7 @@
 CoprActionForkProject
 """
 
+from typing import Union
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
 from .action import CoprAction
@@ -12,8 +13,8 @@ class CoprActionForkProject(CoprAction, CoprClientMixin):
 
     def __init__(
             self,
-            source: str,
-            target: str,
+            source: Union[CoprProjectRef, str],
+            target: Union[CoprProjectRef, str],
             **kwargs):
         """
         Intiializes the action.

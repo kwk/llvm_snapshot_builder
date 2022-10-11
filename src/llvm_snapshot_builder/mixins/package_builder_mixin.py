@@ -5,6 +5,7 @@
 CoprPackageBuilderMixin
 """
 
+from typing import Union
 from copr.v3 import CoprRequestException
 from ..copr_project_ref import CoprProjectRef
 
@@ -24,7 +25,7 @@ class CoprPackageBuilderMixin(object):
 
     def build(
             self,
-            proj: CoprProjectRef,
+            proj: Union[CoprProjectRef, str],
             package_name: str,
             chroots: list[str],
             build_after_id: int = None):
@@ -38,6 +39,7 @@ class CoprPackageBuilderMixin(object):
             build_after_id (int): the build to build after
         """
         build = None
+        proj = CoprProjectRef(proj)
         try:
             print(
                 f"Creating build for package {package_name} in {proj} for chroots {chroots} (build after: {build_after_id})")

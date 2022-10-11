@@ -2,6 +2,7 @@
 CoprActionDeleteProject
 """
 
+from typing import Union
 from copr.v3 import CoprNoResultException
 from ..mixins.client_mixin import CoprClientMixin
 from .cancel_builds import CoprActionCancelBuilds
@@ -14,9 +15,9 @@ class CoprActionDeleteProject(CoprAction, CoprClientMixin):
     Attempts to delete the project if it exists and cancels builds before.
     """
 
-    def __init__(self, proj: CoprProjectRef, ** kwargs):
+    def __init__(self, proj: Union[CoprProjectRef, str], ** kwargs):
         """ Initializes the action. """
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         super().__init__(**kwargs)
 
     def run(self) -> bool:

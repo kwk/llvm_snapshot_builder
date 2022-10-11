@@ -2,6 +2,7 @@
 CoprActionMakeOrEditProject
 """
 
+from typing import Union
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
 from .action import CoprAction
@@ -21,7 +22,7 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
     runtime_dependencies = "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/fedora-$releasever-$basearch"
 
     def __init__(self,
-                 proj: CoprProjectRef,
+                 proj: Union[CoprProjectRef, str],
                  description: str,
                  instructions: str,
                  chroots: list[str] = None,
@@ -36,7 +37,7 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
             delete_after_days (int): How many days the project shall be kept (0 equals indefinite)
             chroots (list[str]): What change roots shall be used for the project. Defaults to default_chroots (only upon creation).
         """
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         self.__description = description
         self.__instructions = instructions
         self.__delete_after_days = delete_after_days

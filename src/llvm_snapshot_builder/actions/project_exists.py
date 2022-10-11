@@ -2,6 +2,7 @@
 CoprActionProjectExists
 """
 
+from typing import Union
 from copr.v3 import CoprNoResultException
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
@@ -11,14 +12,14 @@ from .action import CoprAction
 class CoprActionProjectExists(CoprAction, CoprClientMixin):
     """ Checks if a project exists. """
 
-    def __init__(self, proj: CoprProjectRef, **kwargs):
+    def __init__(self, proj: Union[CoprProjectRef, str], **kwargs):
         """
         Initialize the action.
 
         Args:
             proj (CoprProjectRef): project to check
         """
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         super().__init__(**kwargs)
 
     def run(self) -> bool:

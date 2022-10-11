@@ -4,6 +4,7 @@
 CoprActionBuildPackages
 """
 
+from typing import Union
 from ..copr_project_ref import CoprProjectRef
 from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
 from ..mixins.client_mixin import CoprClientMixin
@@ -26,7 +27,7 @@ class CoprActionBuildPackages(
 
     def __init__(
             self,
-            proj: CoprProjectRef,
+            proj: Union[CoprProjectRef, str],
             package_names: list[str] = None,
             chroots: list[str] = None,
             wait_on_build_id: int = None,
@@ -39,7 +40,7 @@ class CoprActionBuildPackages(
             chroots (list): Chroots to build in. Defaults to default chroots from CoprActionMakeOrEditProject.
             wait_on_build_id (int): Wait for this build to finish before starting the build.
         """
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         if package_names is None:
             package_names = CoprActionMakeOrEditPackages.default_package_names
         self.__package_names = package_names

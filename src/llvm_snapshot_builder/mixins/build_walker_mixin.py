@@ -2,7 +2,7 @@
 CoprBuildWalkerMixin
 """
 
-from typing import Callable
+from typing import Union, Callable
 from ..copr_project_ref import CoprProjectRef
 
 
@@ -14,11 +14,11 @@ class CoprBuildWalkerMixin(object):
 
     def __init__(
             self,
-            proj: CoprProjectRef,
+            proj: Union[CoprProjectRef, str],
             chroots: list[str] = None,
             states: list[str] = None,
             **kwargs):
-        self.__proj = proj
+        self.__proj = CoprProjectRef(proj)
         self.__chroots = chroots
         self.__states = states
         # This is where the resulting build IDs are stored
