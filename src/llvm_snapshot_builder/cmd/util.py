@@ -53,9 +53,15 @@ def get_action(
     # We pass all arguments to the action as keyword arguments. That's why we
     # fist need to clean up the variables a bit.
     vargs = dict(vars(args))
+    del vargs["command"]
     if "proj" in vargs:
         vargs["proj"] = CoprProjectRef(vargs["proj"])
-    del vargs["command"]
+    if "description_file" in vargs:
+        vargs["description"] = vargs["description_file"].read()
+        del vargs["description_file"]
+    if "instructions_file" in vargs:
+        vargs["instructions"] = vargs["instructions_file"].read()
+        del vargs["instructions_file"]
 
     return cmd_action_map[cmd](**vargs)
 
