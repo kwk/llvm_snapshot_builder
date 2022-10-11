@@ -7,7 +7,8 @@ from copr.v3 import Client
 
 
 class CoprClientMixin(object):
-    """ Any class that needs a copr client can derive from this class """
+    """ Any class that needs a copr client property can derive from this class
+    """
 
     def __init__(self, client:"CoprClientMixin"=None, **kwargs):
         """
