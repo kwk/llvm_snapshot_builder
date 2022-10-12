@@ -156,6 +156,20 @@ def build_main_parser() -> argparse.ArgumentParser:
     parser_build_all_packages.add_argument('--proj', **proj_kwargs)
     parser_build_all_packages.add_argument('--chroots', **chroots_kwargs)
 
+    # CREATE OR EDIT PACKAGES
+
+    parser_create_or_edit_packages = subparsers.add_parser(
+        'create-or-edit-packages', help='creates or edits the LLVM packages in Copr')
+    parser_create_or_edit_packages.add_argument('--proj', **proj_kwargs)
+    parser_create_or_edit_packages.add_argument(
+        '--packagenames',
+        dest='packagenames',
+        metavar='PACKAGENAME',
+        required=False,
+        nargs='+',
+        type=str,
+        help="list of LLVM packagenames to create in order")
+
     # BUILD PACKAGES
 
     parser_build_packages = subparsers.add_parser(
@@ -225,14 +239,14 @@ def build_main_parser() -> argparse.ArgumentParser:
         'create-or-edit-project', help='Creates or edits a project')
     parser_create_or_edit_project.add_argument('--proj', **proj_kwargs)
     parser_create_or_edit_project.add_argument(
-        '--description_file',
+        '--description-file',
         dest='description_file',
         default="project-description.md",
         required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project description in markdown format")
     parser_create_or_edit_project.add_argument(
-        '--instructions_file',
+        '--instructions-file',
         dest='instructions_file',
         default="project-instructions.md",
         required=False,
