@@ -49,4 +49,5 @@ class CoprActionBuildAllPackages(
             clang_build = self.build(p, "clang", [chroot], llvm_build.id)
             self.build(p, "libomp", [chroot], clang_build.id)
             self.build(p, "compiler-rt", [chroot], llvm_build.id)
+        # pylint: enable=invalid-name
         return True

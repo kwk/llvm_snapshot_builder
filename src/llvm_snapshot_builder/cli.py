@@ -8,10 +8,22 @@ import argparse
 import sys
 import logging
 
-from importlib.metadata import version
-from llvm_snapshot_builder import *
+from .actions.action import CoprAction
+from .actions.build_all_packages import CoprActionBuildAllPackages
+from .actions.build_packages import CoprActionBuildPackages
+from .actions.cancel_builds import CoprActionCancelBuilds
+from .actions.delete_builds import CoprActionDeleteBuilds
+from .actions.delete_project import CoprActionDeleteProject
+from .actions.fork_project import CoprActionForkProject
+from .actions.make_or_edit_packages import CoprActionMakeOrEditPackages
+from .actions.make_or_edit_project import CoprActionMakeOrEditProject
+from .actions.project_exists import CoprActionProjectExists
+from .actions.regenerate_repos import CoprActionRegenerateRepos
+from .copr_project_ref import CoprProjectRef
+from .__init__ import __version__
 
 
+# pylint: disable=too-few-public-methods
 class HelpAction(CoprAction):
     """ Prints the help message. """
 
@@ -23,6 +35,7 @@ class HelpAction(CoprAction):
         """ Runs the action. """
         self.__arg_parser.print_help()
         return True
+# pylint: enable=too-few-public-methods
 
 
 def get_action(
@@ -98,7 +111,7 @@ def build_main_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         '--version',
         action='version',
-        version=f"llvm_snapshot_builder {version('llvm_snapshot_builder')}")
+        version=f"llvm_snapshot_builder {__version__}")
 
     logging_group = parser.add_mutually_exclusive_group()
     logging_group.add_argument(

@@ -15,7 +15,7 @@ class TestCoprActionMakeOrEditProject(unittest.TestCase):
 
     @property
     def owner(self):
-        """ Returns the proper owner for the test. """
+        """ Returns the proper Copr owner for the test. """
         return CoprClientMixin().client.config["username"]
 
     def test_create_no_such_user(self):

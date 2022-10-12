@@ -15,3 +15,4 @@ class CoprAction(ABC):
     @abstractmethod
     def run(self) -> bool:
         """ Runs the action. """
+# pylint: enable=too-few-public-methods
