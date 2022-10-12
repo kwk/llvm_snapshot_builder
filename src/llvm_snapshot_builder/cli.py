@@ -6,20 +6,23 @@ llvm_snapshot_builder.cli provides a CLI interface to the llvm_snapshot_builder
 
 import argparse
 import sys
+import logging
 
-from .actions.action import CoprAction
-from .actions.build_all_packages import CoprActionBuildAllPackages
-from .actions.build_packages import CoprActionBuildPackages
-from .actions.cancel_builds import CoprActionCancelBuilds
-from .actions.delete_builds import CoprActionDeleteBuilds
-from .actions.delete_project import CoprActionDeleteProject
-from .actions.fork_project import CoprActionForkProject
-from .actions.make_or_edit_packages import CoprActionMakeOrEditPackages
-from .actions.make_or_edit_project import CoprActionMakeOrEditProject
-from .actions.project_exists import CoprActionProjectExists
-from .actions.regenerate_repos import CoprActionRegenerateRepos
-from .copr_project_ref import CoprProjectRef
-from .__init__ import __version__
+from importlib.metadata import version
+from llvm_snapshot_builder import *
+
+
+class HelpAction(CoprAction):
+    """ Prints the help message. """
+
+    def __init__(self, arg_parser: argparse.ArgumentParser, **kwargs):
+        self.__arg_parser = arg_parser
+        super().__init__(**kwargs)
+
+    def run(self) -> bool:
+        """ Runs the action. """
+        self.__arg_parser.print_help()
+        return True
 
 
 def get_action(
@@ -30,8 +33,7 @@ def get_action(
 
     args = arg_parser.parse_args(arguments)
     if not args.command:
-        arg_parser.print_help()
-        return 1
+        return HelpAction(arg_parser)
     cmd = args.command
 
     cmd_action_map = {
@@ -48,8 +50,7 @@ def get_action(
     }
 
     if cmd not in cmd_action_map:
-        arg_parser.print_help()
-        return 1
+        return HelpAction(arg_parser)
 
     # Sanitize action arguments
     # -------------------------
@@ -65,7 +66,9 @@ def get_action(
     if "instructions_file" in vargs:
         vargs["instructions"] = vargs["instructions_file"].read()
         del vargs["instructions_file"]
-
+    if "log_level" in vargs:
+        logging.basicConfig(level=vargs["log_level"])
+        del vargs["log_level"]
     return cmd_action_map[cmd](**vargs)
 
 
@@ -77,8 +80,8 @@ def build_main_parser() -> argparse.ArgumentParser:
         "metavar": '"OWNER/PROJECT"',
         "type": str,
         "required": True,
-        "help": "owner (or group) and project name of the copr project to "\
-            "work with (e.g. 'foo/bar')"
+        "help": "owner (or group) and project name of the copr project to "
+        "work with (e.g. 'foo/bar')"
     }
     chroots_kwargs = {
         "dest": 'chroots',
@@ -95,7 +98,20 @@ def build_main_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         '--version',
         action='version',
-        version=f"llvm_snapshot_builder {__version__}")
+        version=f"llvm_snapshot_builder {version('llvm_snapshot_builder')}")
+
+    logging_group = parser.add_mutually_exclusive_group()
+    logging_group.add_argument(
+        '--debug',
+        action="store_const",
+        dest="log_level",
+        const=logging.DEBUG,
+        default=logging.WARNING)
+    logging_group.add_argument(
+        '--verbose',
+        action="store_const",
+        dest="log_level",
+        const=logging.INFO)
 
     # Subparsers
 
@@ -214,8 +230,8 @@ def build_main_parser() -> argparse.ArgumentParser:
         dest='delete_after_days',
         default=0,
         type=int,
-        help="delete the project to be created after a given number of days "\
-            "(default: 0 which means \"keep forever\")")
+        help="delete the project to be created after a given number of days "
+        "(default: 0 which means \"keep forever\")")
 
     return parser
 
