@@ -29,8 +29,6 @@ class CoprActionProjectExists(CoprAction, CoprClientMixin):
             self.client.project_proxy.get(self.__proj.owner, self.__proj.name)
         except CoprNoResultException:
             logging.info(f"project does not exists {self.__proj}")
-            print("no")
             return False
         logging.info(f"project exists {self.__proj}")
-        print("yes")
         return True
