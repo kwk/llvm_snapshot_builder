@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.1.0 (2022-10-12)
+### Feature
+* Add --verbose and --debug CLI switches ([`96d7046`](https://github.com/kwk/llvm_snapshot_builder/commit/96d7046acbb33cb33fdbbdf0a5f5b1f421831fc9))
+
 ## v0.0.11 (2022-10-11)
 ### Documentation
 * Add documentation on cli command embedded in the library ([`ce2eb4f`](https://github.com/kwk/llvm_snapshot_builder/commit/ce2eb4f4ded30aa0ac4ab40af39a1aa4c7e2a287))
