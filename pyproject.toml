@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "llvm_snapshot_builder"
-version = "0.1.0"
+version = "0.1.1"
 description = "Builds LLVM snapshots on Copr"
 authors = ["Konrad Kleine <kkleine@redhat.com>"]
 maintainers = ["Konrad Kleine <kkleine@redhat.com>"]
