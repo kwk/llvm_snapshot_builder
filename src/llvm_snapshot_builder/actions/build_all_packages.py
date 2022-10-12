@@ -27,27 +27,33 @@ class CoprActionBuildAllPackages(
             self,
             proj: Union[CoprProjectRef, str],
             chroots: list[str] = None,
+            timeout: int = None,
             ** kwargs):
         """ Initializes the action. """
         if chroots is None:
             chroots = CoprActionMakeOrEditProject.default_chroots
         self.__chroots = chroots
         self.__proj = CoprProjectRef(proj)
+        self.__timeout = timeout
         super().__init__(**kwargs)
 
     def run(self) -> bool:
         """ Runs the action. """
 
         # pylint: disable=invalid-name
-        p = self.__proj
         for chroot in self.__chroots:
+            params = {
+                "proj": self.__proj,
+                "chroots": chroot,
+                "timeout": self.__timeout,
+            }
             logging.info(f"build all packages in chroot: {chroot}")
-            python_lit_build = self.build(p, "python-lit", [chroot])
-            llvm_build = self.build(p, "llvm", [chroot], python_lit_build.id)
-            self.build(p, "lld", [chroot], llvm_build.id)
-            self.build(p, "mlir", [chroot], llvm_build.id)
-            clang_build = self.build(p, "clang", [chroot], llvm_build.id)
-            self.build(p, "libomp", [chroot], clang_build.id)
-            self.build(p, "compiler-rt", [chroot], llvm_build.id)
+            python_lit_build = self.build(package_name="python-lit", **params)
+            llvm_build = self.build(package_name="llvm", **params)
+            self.build(package_name="lld", **params)
+            self.build(package_name="mlir", **params)
+            clang_build = self.build(package_name="clang", **params)
+            self.build(package_name="libomp", **params)
+            self.build(package_name="compiler-rt", **params)
         # pylint: enable=invalid-name
         return True

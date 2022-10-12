@@ -23,14 +23,13 @@ class CoprPackageBuilderMixin:
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    default_build_timeout = 30 * 3600
-
     def build(
             self,
             proj: Union[CoprProjectRef, str],
             package_name: str,
             chroots: list[str],
-            build_after_id: int = None):
+            build_after_id: int = None,
+            timeout: int = None):
         """
         Builds a package in Copr
 
@@ -73,7 +72,7 @@ class CoprPackageBuilderMixin:
                 # See
                 # https://python-copr.readthedocs.io/en/latest/client_v3/build_options.html
                 buildopts={
-                    "timeout": self.default_build_timeout,
+                    "timeout": timeout,
                     "chroots": list(set(chroots)),
                     "after_build_id": build_after_id
                 },
