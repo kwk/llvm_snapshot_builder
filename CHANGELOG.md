@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.2 (2022-10-13)
+### Fix
+* Add missing --chroots to create-project cmd ([`972ad7e`](https://github.com/kwk/llvm_snapshot_builder/commit/972ad7ed7c342e0944e90c7bc5a2aec9d4f12669))
+
 ## v1.1.1 (2022-10-13)
 ### Fix
 * Add --timeout argument to build-all-packages ([`3bfff5e`](https://github.com/kwk/llvm_snapshot_builder/commit/3bfff5e88c5822b00743d01347b7e04d08facab8))
