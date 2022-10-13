@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.0 (2022-10-13)
+### Feature
+* Rename commands and introduce --update and test CLI ([`0c5f0eb`](https://github.com/kwk/llvm_snapshot_builder/commit/0c5f0eb898bdcfba1c0bdee020642accdd3beabe))
+
+### Fix
+* Timeout in CoprPackageBuilderMixin ([`f1f7009`](https://github.com/kwk/llvm_snapshot_builder/commit/f1f700977ebe12fffcf10df419c8db1811a21ff2))
+
+### Breaking
+* rename commands and introduce --update and test CLI ([`0c5f0eb`](https://github.com/kwk/llvm_snapshot_builder/commit/0c5f0eb898bdcfba1c0bdee020642accdd3beabe))
+
 ## v0.1.1 (2022-10-12)
 
 
