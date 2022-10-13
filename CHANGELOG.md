@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.4 (2022-10-13)
+
+
 ## v1.1.3 (2022-10-13)
 ### Fix
 * Build clang after llvm ([`8bec8e9`](https://github.com/kwk/llvm_snapshot_builder/commit/8bec8e9ea4e14ef09acda1446e7e08cfa0feb4ee))
