@@ -157,16 +157,16 @@ def build_main_parser() -> argparse.ArgumentParser:
 
     # FORK
 
-    parser_fork = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_FORK_PROJECT, help='fork from a given project and then exit')
-    parser_fork.add_argument(
+    subparser.add_argument(
         '--source',
         dest='source',
         required=True,
         type=str,
         help="the project to fork from (e.g. @fedora-llvm-team/llvm-snapshots-incubator")
 
-    parser_fork.add_argument(
+    subparser.add_argument(
         '--target',
         dest='target',
         required=True,
@@ -175,18 +175,18 @@ def build_main_parser() -> argparse.ArgumentParser:
 
     # BUILD ALL PACKAGES
 
-    parser_build_all_packages = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_BUILD_ALL_PACKAGES, help='build packages')
-    parser_build_all_packages.add_argument('--proj', **proj_kwargs)
-    parser_build_all_packages.add_argument('--chroots', **chroots_kwargs)
-    parser_build_all_packages.add_argument('--timeout', **timeout_kwargs)
+    subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--chroots', **chroots_kwargs)
+    subparser.add_argument('--timeout', **timeout_kwargs)
 
     # CREATE PACKAGES
 
-    parser_create_or_edit_packages = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_CREATE_PACKAGES, help='creates or edits the LLVM packages in Copr')
-    parser_create_or_edit_packages.add_argument('--proj', **proj_kwargs)
-    parser_create_or_edit_packages.add_argument(
+    subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument(
         '--packagenames',
         dest='packagenames',
         metavar='PACKAGENAME',
@@ -194,7 +194,7 @@ def build_main_parser() -> argparse.ArgumentParser:
         nargs='+',
         type=str,
         help="list of LLVM packagenames to create in order")
-    parser_create_or_edit_packages.add_argument(
+    subparser.add_argument(
         '--update',
         dest='update',
         action='store_true',
@@ -202,11 +202,11 @@ def build_main_parser() -> argparse.ArgumentParser:
 
     # BUILD PACKAGES
 
-    parser_build_packages = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_BUILD_PACKAGES, help='build packages')
-    parser_build_packages.add_argument('--proj', **proj_kwargs)
-    parser_build_packages.add_argument('--chroots', **chroots_kwargs)
-    parser_build_packages.add_argument(
+    subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--chroots', **chroots_kwargs)
+    subparser.add_argument(
         '--packagenames',
         dest='package_names',
         metavar='PACKAGENAME',
@@ -214,8 +214,8 @@ def build_main_parser() -> argparse.ArgumentParser:
         nargs='+',
         type=str,
         help="list of LLVM packagenames to build in order")
-    parser_build_packages.add_argument('--timeout', **timeout_kwargs)
-    parser_build_packages.add_argument(
+    subparser.add_argument('--timeout', **timeout_kwargs)
+    subparser.add_argument(
         '--wait-on-build-id',
         dest='wait_on_build_id',
         default=None,
@@ -224,66 +224,67 @@ def build_main_parser() -> argparse.ArgumentParser:
 
     # CANCEL BUILDS
 
-    parser_cancel_builds = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_CANCEL_BUILDS,
         help="""
         cancel builds with these states before creating new ones and
         then exits: "pending", "waiting", "running", "importing"
         """)
-    parser_cancel_builds.add_argument('--proj', **proj_kwargs)
-    parser_cancel_builds.add_argument('--chroots', **chroots_kwargs)
+    subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--chroots', **chroots_kwargs)
 
     # DELETE BUILDS
 
-    parser_delete_builds = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_DELETE_BUILDS,
         help='cancel running builds and delete all builds afterwards')
-    parser_delete_builds.add_argument('--proj', **proj_kwargs)
-    parser_delete_builds.add_argument('--chroots', **chroots_kwargs)
+    subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--chroots', **chroots_kwargs)
 
     # PROJECT EXISTS
 
-    parser_project_exists = subparsers.add_parser(
-        CMD_PROJECT_EXISTS, help='checks if the project exists in copr, then exit')
-    parser_project_exists.add_argument('--proj', **proj_kwargs)
+    subparser = subparsers.add_parser(
+        CMD_PROJECT_EXISTS,
+        help='checks if the project exists in copr, then exit')
+    subparser.add_argument('--proj', **proj_kwargs)
 
     # DELETE PROJECT
 
-    parser_delete_project = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_DELETE_PROJECT, help='Deletes the project')
-    parser_delete_project.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--proj', **proj_kwargs)
 
     # REGENERATE REPOS
 
-    parser_regenerate_repos = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_REGENERATE_REPOS, help='Regenerates the repo for the project')
-    parser_regenerate_repos.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--proj', **proj_kwargs)
 
     # CREATE PROJECT
 
-    parser_create_project = subparsers.add_parser(
+    subparser = subparsers.add_parser(
         CMD_CREATE_PROJECT, help='Creates or edits a project')
-    parser_create_project.add_argument('--proj', **proj_kwargs)
-    parser_create_project.add_argument(
+    subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument(
         '--description-file',
         dest='description_file',
         required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project description in markdown format")
-    parser_create_project.add_argument(
+    subparser.add_argument(
         '--instructions-file',
         dest='instructions_file',
         required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project instructions in markdown format")
-    parser_create_project.add_argument(
+    subparser.add_argument(
         '--delete-after-days',
         dest='delete_after_days',
         default=0,
         type=int,
         help="delete the project to be created after a given number of days "
         "(default: 0 which means \"keep forever\")")
-    parser_create_project.add_argument(
+    subparser.add_argument(
         '--update',
         dest='update',
         action='store_true',
