@@ -59,6 +59,7 @@ class CoprActionBuildPackages(
         """ Runs the action. """
         logging.info(f"building packages {self.__package_names} in chroots {self.__chroots}")
         for chroot in self.__chroots:
+            self.adjust_chroot(proj=self.__proj, chroot=chroot)
             logging.info(
                 f"build packages ({self.__package_names}) in chroot: {chroot}")
             previous_build_id = self.__wait_on_build_id

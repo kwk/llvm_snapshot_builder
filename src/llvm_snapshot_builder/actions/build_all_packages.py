@@ -43,6 +43,7 @@ class CoprActionBuildAllPackages(
 
         # pylint: disable=invalid-name
         for chroot in self.__chroots:
+            self.adjust_chroot(proj=self.__proj, chroot=chroot)
             params = {
                 "proj": self.__proj,
                 "chroots": [chroot],

@@ -23,6 +23,29 @@ class CoprPackageBuilderMixin:
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+    def adjust_chroot(self, proj: Union[CoprProjectRef, str], chroot: str):
+        """
+        Adjusts the chroot to have --with=snapshot_build and llvm-snapshot-builder package installed.
+
+        Keyword arguments:
+            proj -- the project to adjust the chroot for
+            chroot -- the chroot to adjust
+        """
+        logging.info(
+            f"adjust chroot {chroot} to have --with=snapshot_build and llvm-snapshot-builder package installed")
+        self.client.project_chroot_proxy.edit(
+            ownername=proj.owner,
+            projectname=proj.name,
+            chrootname=chroot,
+            with_opts="snapshot_build",
+            additional_repos=[
+                "https://download.copr.fedorainfracloud.org/results/"
+                "%40fedora-llvm-team/llvm-snapshot-builder/",
+                "https://download.copr.fedorainfracloud.org/results/"
+                "%40fedora-llvm-team/llvm-compat-packages/"
+            ],
+            additional_packages="llvm-snapshot-builder")
+
     # pylint: disable=too-many-arguments
     def build(
             self,
@@ -50,21 +73,6 @@ class CoprPackageBuilderMixin:
             logging.info(
                 f"build package {package_name} in {proj} for chroots {chroots} (build after: {build_after_id})")
 
-            logging.info(
-                "adjust chroots to have --with=snapshot_build and llvm-snapshot-builder package installed")
-            for chroot in chroots:
-                self.client.project_chroot_proxy.edit(
-                    ownername=proj.owner,
-                    projectname=proj.name,
-                    chrootname=chroot,
-                    with_opts="snapshot_build",
-                    additional_repos=[
-                        "https://download.copr.fedorainfracloud.org/results/"
-                        "%40fedora-llvm-team/llvm-snapshot-builder/",
-                        "https://download.copr.fedorainfracloud.org/results/"
-                        "%40fedora-llvm-team/llvm-compat-packages/"
-                    ],
-                    additional_packages="llvm-snapshot-builder")
             build = self.client.package_proxy.build(
                 ownername=proj.owner,
                 projectname=proj.name,
