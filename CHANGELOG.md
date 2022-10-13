@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.1 (2022-10-13)
+### Fix
+* Add --timeout argument to build-all-packages ([`3bfff5e`](https://github.com/kwk/llvm_snapshot_builder/commit/3bfff5e88c5822b00743d01347b7e04d08facab8))
+
 ## v1.1.0 (2022-10-13)
 ### Feature
 * Fix and test build-all-packages ([`9d1c84c`](https://github.com/kwk/llvm_snapshot_builder/commit/9d1c84c92b138224c08398a8417528f2031efe18))
