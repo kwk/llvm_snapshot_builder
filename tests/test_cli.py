@@ -6,6 +6,7 @@ import io
 import contextlib
 from contextlib import contextmanager
 from tempfile import NamedTemporaryFile
+from copr.v3.exceptions import CoprNoResultException
 from llvm_snapshot_builder.mixins.client_mixin import CoprClientMixin
 from llvm_snapshot_builder.cli import main
 from llvm_snapshot_builder import __version__
@@ -123,7 +124,41 @@ class TestCLI(unittest.TestCase):
         ref = f"{self.owner}/{uuid.uuid4()}"
         self.assertTrue(main([CMD_CREATE_PROJECT, "--proj", ref]))
         self.assertTrue(main([CMD_CREATE_PACKAGES, "--proj", ref]))
-        self.assertTrue(main(["--debug", CMD_BUILD_ALL_PACKAGES, "--proj", ref]))
+        self.assertTrue(
+            main(["--debug", CMD_BUILD_ALL_PACKAGES, "--proj", ref]))
+        self.assertTrue(main([CMD_CANCEL_BUILDS, "--proj", ref]))
+        self.assertTrue(main([CMD_DELETE_PROJECT, "--proj", ref]))
+
+    def test_create_project_with_manual_chroot(self):
+        """
+        Tests create-packages and build-all-packages with manually specified
+        chroots and one that was not set up onecommands.
+        """
+        ref = f"{self.owner}/{uuid.uuid4()}"
+        self.assertTrue(main([CMD_CREATE_PROJECT,
+                              "--proj",
+                              ref,
+                              "--chroots",
+                              "fedora-rawhide-aarch64",
+                              "fedora-rawhide-s390x"]))
+        self.assertTrue(main([CMD_CREATE_PACKAGES, "--proj", ref]))
+        self.assertTrue(main(["--debug",
+                              CMD_BUILD_ALL_PACKAGES,
+                              "--proj",
+                              ref,
+                              "--chroots",
+                              "fedora-rawhide-aarch64",
+                              "fedora-rawhide-s390x"]))
+        self.assertTrue(main([CMD_CANCEL_BUILDS, "--proj", ref]))
+        with self.assertRaises(CoprNoResultException) as ex:
+            self.assertTrue(main(["--debug",
+                                  CMD_BUILD_ALL_PACKAGES,
+                                  "--proj",
+                                  ref,
+                                  "--chroots",
+                                  "fedora-rawhide-ppc64le"]))
+        self.assertEqual(str(ex.exception),
+                         "Chroot name fedora-rawhide-ppc64le does not exist.")
         self.assertTrue(main([CMD_CANCEL_BUILDS, "--proj", ref]))
         self.assertTrue(main([CMD_DELETE_PROJECT, "--proj", ref]))
 

@@ -265,6 +265,7 @@ def build_main_parser() -> argparse.ArgumentParser:
     subparser = subparsers.add_parser(
         CMD_CREATE_PROJECT, help='Creates or edits a project')
     subparser.add_argument('--proj', **proj_kwargs)
+    subparser.add_argument('--chroots', **chroots_kwargs)
     subparser.add_argument(
         '--description-file',
         dest='description_file',
