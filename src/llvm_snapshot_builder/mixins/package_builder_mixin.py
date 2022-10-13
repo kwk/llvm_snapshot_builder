@@ -39,10 +39,8 @@ class CoprPackageBuilderMixin:
             chrootname=chroot,
             with_opts="snapshot_build",
             additional_repos=[
-                "https://download.copr.fedorainfracloud.org/results/"
-                "%40fedora-llvm-team/llvm-snapshot-builder/",
-                "https://download.copr.fedorainfracloud.org/results/"
-                "%40fedora-llvm-team/llvm-compat-packages/"
+                "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-snapshot-builder/",
+                "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/"
             ],
             additional_packages="llvm-snapshot-builder")
 
