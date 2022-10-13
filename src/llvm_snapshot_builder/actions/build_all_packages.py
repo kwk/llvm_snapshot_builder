@@ -53,7 +53,7 @@ class CoprActionBuildAllPackages(
             llvm_build = self.build(package_name="llvm", build_after_id=python_lit_build.id, **params)
             self.build(package_name="lld", build_after_id=llvm_build.id, **params)
             self.build(package_name="mlir", build_after_id=llvm_build.id, **params)
-            clang_build = self.build(package_name="clang", **params)
+            clang_build = self.build(package_name="clang", **params, build_after_id=llvm_build.id)
             self.build(package_name="libomp", build_after_id=clang_build.id, **params)
             self.build(package_name="compiler-rt", build_after_id=clang_build.id,**params)
         # pylint: enable=invalid-name
