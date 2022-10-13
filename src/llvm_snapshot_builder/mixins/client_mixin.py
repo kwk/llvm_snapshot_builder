@@ -16,7 +16,7 @@ class CoprClientMixin:
         """
         Initializes the mixin.
 
-        Args:
+        Keyword Arguments:
             client (Client): Copr client to use. If None, a client is created
         """
         self.__client = client

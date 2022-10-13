@@ -1,5 +1,5 @@
 """
-CoprActionMakeOrEditPackages
+CoprActionCreatePackages
 """
 
 import logging
@@ -9,7 +9,7 @@ from ..copr_project_ref import CoprProjectRef
 from .action import CoprAction
 
 
-class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
+class CoprActionCreatePackages(CoprAction, CoprClientMixin):
     """
     Make or edits packages in a copr project.
     NOTE: This doesn't build the packages!
@@ -33,6 +33,7 @@ class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
             self,
             proj: Union[CoprProjectRef, str],
             packagenames: list[str] = None,
+            update: bool = False,
             **kwargs):
         """
         Initialize the make or edit project action.
@@ -44,6 +45,7 @@ class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
         """
         self.__proj = CoprProjectRef(proj)
         self.__packagenames = packagenames
+        self.__update = update
         if packagenames is None:
             self.__packagenames = self.default_package_names
         super().__init__(**kwargs)
@@ -71,6 +73,9 @@ class CoprActionMakeOrEditPackages(CoprAction, CoprClientMixin):
                 }
             }
             if packagename in existingpackagenames:
+                if not self.__update:
+                    logging.warning(f"package already exists and is not updated: {packagename}")
+                    continue
                 logging.info(
                     f"reset and editing package {packagename} in {self.__proj}")
                 self.client.package_proxy.reset(

@@ -23,6 +23,7 @@ class CoprPackageBuilderMixin:
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+    # pylint: disable=too-many-arguments
     def build(
             self,
             proj: Union[CoprProjectRef, str],
@@ -38,6 +39,7 @@ class CoprPackageBuilderMixin:
             package_name (str): the package to build
             chroots (list[str]): the chroots to build in
             build_after_id (int): the build to build after
+            timeout (int): the build timeout in seconds
 
         Raises:
             CoprRequestException: if the build could not be created
@@ -57,12 +59,10 @@ class CoprPackageBuilderMixin:
                     chrootname=chroot,
                     with_opts="snapshot_build",
                     additional_repos=[
-                        "https://download.copr.fedorainfracloud.org/results/"\
-                            "%40fedora-llvm-team/llvm-snapshot-builder/",
-                        chroot,
-                        "https://download.copr.fedorainfracloud.org/results/"\
-                            "%40fedora-llvm-team/llvm-compat-packages/",
-                        chroot,
+                        "https://download.copr.fedorainfracloud.org/results/"
+                        "%40fedora-llvm-team/llvm-snapshot-builder/",
+                        "https://download.copr.fedorainfracloud.org/results/"
+                        "%40fedora-llvm-team/llvm-compat-packages/"
                     ],
                     additional_packages="llvm-snapshot-builder")
             build = self.client.package_proxy.build(
@@ -80,5 +80,5 @@ class CoprPackageBuilderMixin:
         except CoprRequestException as ex:
             logging.exception(ex)
             raise ex
-        print(f"(build-id={build.id}, state={build.state})")
         return build
+    # pylint: enable=too-many-arguments

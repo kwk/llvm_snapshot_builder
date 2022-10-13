@@ -7,7 +7,7 @@ from typing import Union
 from ..mixins.package_builder_mixin import CoprPackageBuilderMixin
 from ..mixins.client_mixin import CoprClientMixin
 from .action import CoprAction
-from .make_or_edit_project import CoprActionMakeOrEditProject
+from .create_project import CoprActionCreateProject
 from ..copr_project_ref import CoprProjectRef
 
 
@@ -31,7 +31,7 @@ class CoprActionBuildAllPackages(
             ** kwargs):
         """ Initializes the action. """
         if chroots is None:
-            chroots = CoprActionMakeOrEditProject.default_chroots
+            chroots = CoprActionCreateProject.default_chroots
         self.__chroots = chroots
         self.__proj = CoprProjectRef(proj)
         self.__timeout = timeout
@@ -49,11 +49,11 @@ class CoprActionBuildAllPackages(
             }
             logging.info(f"build all packages in chroot: {chroot}")
             python_lit_build = self.build(package_name="python-lit", **params)
-            llvm_build = self.build(package_name="llvm", **params)
-            self.build(package_name="lld", **params)
-            self.build(package_name="mlir", **params)
+            llvm_build = self.build(package_name="llvm", build_after_id=python_lit_build.id, **params)
+            self.build(package_name="lld", build_after_id=llvm_build.id, **params)
+            self.build(package_name="mlir", build_after_id=llvm_build.id, **params)
             clang_build = self.build(package_name="clang", **params)
-            self.build(package_name="libomp", **params)
-            self.build(package_name="compiler-rt", **params)
+            self.build(package_name="libomp", build_after_id=clang_build.id, **params)
+            self.build(package_name="compiler-rt", build_after_id=clang_build.id,**params)
         # pylint: enable=invalid-name
         return True

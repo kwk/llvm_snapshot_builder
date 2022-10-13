@@ -41,7 +41,7 @@ jobs:
           COPR_USERNAME: ${{ secrets.COPR_USERNAME }}
           COPR_TOKEN: ${{ secrets.COPR_TOKEN }}
           COPR_URL: ${{ secrets.COPR_URL }}
-        run: poetry run pytest tests/ --cov=llvm_snapshot_builder --cov-report=xml -v
+        run: poetry run pytest tests/ --cov=llvm_snapshot_builder --cov-report=xml -v -s
 
       - name: Use Codecov to track coverage
         uses: codecov/codecov-action@v3

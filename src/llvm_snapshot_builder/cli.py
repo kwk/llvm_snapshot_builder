@@ -15,8 +15,8 @@ from .actions.cancel_builds import CoprActionCancelBuilds
 from .actions.delete_builds import CoprActionDeleteBuilds
 from .actions.delete_project import CoprActionDeleteProject
 from .actions.fork_project import CoprActionForkProject
-from .actions.make_or_edit_packages import CoprActionMakeOrEditPackages
-from .actions.make_or_edit_project import CoprActionMakeOrEditProject
+from .actions.create_packages import CoprActionCreatePackages
+from .actions.create_project import CoprActionCreateProject
 from .actions.project_exists import CoprActionProjectExists
 from .actions.regenerate_repos import CoprActionRegenerateRepos
 from .copr_project_ref import CoprProjectRef
@@ -38,31 +38,47 @@ class HelpAction(CoprAction):
 # pylint: enable=too-few-public-methods
 
 
+CMD_BUILD_ALL_PACKAGES = 'build-all-packages'
+CMD_BUILD_PACKAGES = 'build-packages'
+CMD_CREATE_PACKAGES = 'create-packages'
+CMD_CANCEL_BUILDS = 'cancel-builds'
+CMD_DELETE_BUILDS = 'delete-builds'
+CMD_DELETE_PROJECT = 'delete-project'
+CMD_FORK_PROJECT = 'fork-project'
+CMD_CREATE_PROJECT = 'create-project'
+CMD_PROJECT_EXISTS = 'project-exists'
+CMD_REGENERATE_REPOS = 'regenerate-repos'
+
+cmd_action_map = {
+    CMD_BUILD_ALL_PACKAGES: CoprActionBuildAllPackages,
+    CMD_BUILD_PACKAGES: CoprActionBuildPackages,
+    CMD_CANCEL_BUILDS: CoprActionCancelBuilds,
+    CMD_CREATE_PACKAGES: CoprActionCreatePackages,
+    CMD_CREATE_PROJECT: CoprActionCreateProject,
+    CMD_DELETE_BUILDS: CoprActionDeleteBuilds,
+    CMD_DELETE_PROJECT: CoprActionDeleteProject,
+    CMD_FORK_PROJECT: CoprActionForkProject,
+    CMD_PROJECT_EXISTS: CoprActionProjectExists,
+    CMD_REGENERATE_REPOS: CoprActionRegenerateRepos,
+}
+
+
 def get_action(
         arg_parser: argparse.ArgumentParser,
-        arguments=None) -> CoprAction:
-    """ Parses all arguments set up by build_main_parser() and returns the
-    action to execute. """
+        arguments: list = None) -> CoprAction:
+    """
+    Parses all arguments set up by build_main_parser() and returns the
+    action to execute.
+
+    Keyword Arguments:
+        arg_parser {argparse.ArgumentParser} -- The argument parser to use.
+        arguments {list} -- The arguments to parse. If None, sys.argv is used.
+    """
 
     args = arg_parser.parse_args(arguments)
     if not args.command:
         return HelpAction(arg_parser)
-    cmd = args.command
-
-    cmd_action_map = {
-        'build-all-packages': CoprActionBuildAllPackages,
-        'build-packages': CoprActionBuildPackages,
-        'cancel-builds': CoprActionCancelBuilds,
-        'create-or-edit-packages': CoprActionMakeOrEditPackages,
-        'create-or-edit-project': CoprActionMakeOrEditProject,
-        'delete-builds': CoprActionDeleteBuilds,
-        'delete-project': CoprActionDeleteProject,
-        'fork-project': CoprActionForkProject,
-        'project-exists': CoprActionProjectExists,
-        'regenerate-repos': CoprActionRegenerateRepos,
-    }
-
-    if cmd not in cmd_action_map:
+    if (cmd := args.command) not in cmd_action_map:
         return HelpAction(arg_parser)
 
     # Sanitize action arguments
@@ -74,10 +90,12 @@ def get_action(
     if "proj" in vargs:
         vargs["proj"] = CoprProjectRef(vargs["proj"])
     if "description_file" in vargs:
-        vargs["description"] = vargs["description_file"].read()
+        if vargs["description_file"] is not None:
+            vargs["description"] = vargs["description_file"].read()
         del vargs["description_file"]
     if "instructions_file" in vargs:
-        vargs["instructions"] = vargs["instructions_file"].read()
+        if vargs["instructions_file"] is not None:
+            vargs["instructions"] = vargs["instructions_file"].read()
         del vargs["instructions_file"]
     if "log_level" in vargs:
         logging.basicConfig(level=vargs["log_level"])
@@ -134,7 +152,7 @@ def build_main_parser() -> argparse.ArgumentParser:
     # FORK
 
     parser_fork = subparsers.add_parser(
-        'fork-project', help='fork from a given project and then exit')
+        CMD_FORK_PROJECT, help='fork from a given project and then exit')
     parser_fork.add_argument(
         '--source',
         dest='source',
@@ -152,14 +170,14 @@ def build_main_parser() -> argparse.ArgumentParser:
     # BUILD ALL PACKAGES
 
     parser_build_all_packages = subparsers.add_parser(
-        'build-all-packages', help='build packages')
+        CMD_BUILD_ALL_PACKAGES, help='build packages')
     parser_build_all_packages.add_argument('--proj', **proj_kwargs)
     parser_build_all_packages.add_argument('--chroots', **chroots_kwargs)
 
-    # CREATE OR EDIT PACKAGES
+    # CREATE PACKAGES
 
     parser_create_or_edit_packages = subparsers.add_parser(
-        'create-or-edit-packages', help='creates or edits the LLVM packages in Copr')
+        CMD_CREATE_PACKAGES, help='creates or edits the LLVM packages in Copr')
     parser_create_or_edit_packages.add_argument('--proj', **proj_kwargs)
     parser_create_or_edit_packages.add_argument(
         '--packagenames',
@@ -169,16 +187,21 @@ def build_main_parser() -> argparse.ArgumentParser:
         nargs='+',
         type=str,
         help="list of LLVM packagenames to create in order")
+    parser_create_or_edit_packages.add_argument(
+        '--update',
+        dest='update',
+        action='store_true',
+        help="will update an already existing packages")
 
     # BUILD PACKAGES
 
     parser_build_packages = subparsers.add_parser(
-        'build-packages', help='build packages')
+        CMD_BUILD_PACKAGES, help='build packages')
     parser_build_packages.add_argument('--proj', **proj_kwargs)
     parser_build_packages.add_argument('--chroots', **chroots_kwargs)
     parser_build_packages.add_argument(
         '--packagenames',
-        dest='packagenames',
+        dest='package_names',
         metavar='PACKAGENAME',
         required=True,
         nargs='+',
@@ -200,7 +223,7 @@ def build_main_parser() -> argparse.ArgumentParser:
     # CANCEL BUILDS
 
     parser_cancel_builds = subparsers.add_parser(
-        'cancel-builds',
+        CMD_CANCEL_BUILDS,
         help="""
         cancel builds with these states before creating new ones and
         then exits: "pending", "waiting", "running", "importing"
@@ -211,57 +234,68 @@ def build_main_parser() -> argparse.ArgumentParser:
     # DELETE BUILDS
 
     parser_delete_builds = subparsers.add_parser(
-        'delete-builds', help='cancel running builds and delete all builds afterwards')
+        CMD_DELETE_BUILDS,
+        help='cancel running builds and delete all builds afterwards')
     parser_delete_builds.add_argument('--proj', **proj_kwargs)
     parser_delete_builds.add_argument('--chroots', **chroots_kwargs)
 
     # PROJECT EXISTS
 
     parser_project_exists = subparsers.add_parser(
-        'project-exists', help='checks if the project exists in copr, then exit')
+        CMD_PROJECT_EXISTS, help='checks if the project exists in copr, then exit')
     parser_project_exists.add_argument('--proj', **proj_kwargs)
 
     # DELETE PROJECT
 
     parser_delete_project = subparsers.add_parser(
-        'delete-project', help='Deletes the project')
+        CMD_DELETE_PROJECT, help='Deletes the project')
     parser_delete_project.add_argument('--proj', **proj_kwargs)
 
     # REGENERATE REPOS
 
     parser_regenerate_repos = subparsers.add_parser(
-        'regenerate-repos', help='Regenerates the repo for the project')
+        CMD_REGENERATE_REPOS, help='Regenerates the repo for the project')
     parser_regenerate_repos.add_argument('--proj', **proj_kwargs)
 
-    # CREATE OR EDIT PROJECT
+    # CREATE PROJECT
 
-    parser_create_or_edit_project = subparsers.add_parser(
-        'create-or-edit-project', help='Creates or edits a project')
-    parser_create_or_edit_project.add_argument('--proj', **proj_kwargs)
-    parser_create_or_edit_project.add_argument(
+    parser_create_project = subparsers.add_parser(
+        CMD_CREATE_PROJECT, help='Creates or edits a project')
+    parser_create_project.add_argument('--proj', **proj_kwargs)
+    parser_create_project.add_argument(
         '--description-file',
         dest='description_file',
-        default="project-description.md",
         required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project description in markdown format")
-    parser_create_or_edit_project.add_argument(
+    parser_create_project.add_argument(
         '--instructions-file',
         dest='instructions_file',
-        default="project-instructions.md",
         required=False,
         type=argparse.FileType('r', encoding='UTF-8'),
         help="file containing the project instructions in markdown format")
-    parser_create_or_edit_project.add_argument(
+    parser_create_project.add_argument(
         '--delete-after-days',
         dest='delete_after_days',
         default=0,
         type=int,
         help="delete the project to be created after a given number of days "
         "(default: 0 which means \"keep forever\")")
+    parser_create_project.add_argument(
+        '--update',
+        dest='update',
+        action='store_true',
+        help="will update an already existing project")
 
     return parser
 
 
+def main(arguments=None) -> bool:
+    """ Main function """
+    return get_action(
+        arg_parser=build_main_parser(),
+        arguments=arguments).run()
+
+
 if __name__ == "__main__":
-    sys.exit(0 if get_action(build_main_parser()).run() else 1)
+    sys.exit(0 if main(sys.argv[1:]) else 1)

@@ -1,15 +1,17 @@
 """
-CoprActionMakeOrEditProject
+CoprActionCreateProject
 """
 
 import logging
 from typing import Union
+
+from ..actions.project_exists import CoprActionProjectExists
 from ..mixins.client_mixin import CoprClientMixin
 from ..copr_project_ref import CoprProjectRef
 from .action import CoprAction
 
 
-class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
+class CoprActionCreateProject(CoprAction, CoprClientMixin):
     """
     Make or edits a project
 
@@ -31,7 +33,8 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
                  description: str = "",
                  instructions: str = "",
                  chroots: list[str] = None,
-                 delete_after_days: int = 0, **kwargs):
+                 delete_after_days: int = 0,
+                 update: bool = False, **kwargs):
         """
         Initialize the make or edit project action.
 
@@ -42,11 +45,13 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
             delete_after_days (int): How many days the project shall be kept (0 equals indefinite)
             chroots (list[str]): What change roots shall be used for the project.
                                  Defaults to default_chroots (only upon creation).
+            update (bool): whether to update the project if it already exists
         """
         self.__proj = CoprProjectRef(proj)
         self.__description = description
         self.__instructions = instructions
         self.__delete_after_days = delete_after_days
+        self.__update = update
         if chroots is None or len(chroots) == 0:
             chroots = self.default_chroots
         self.__chroots = chroots
@@ -55,14 +60,20 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
 
     def run(self) -> bool:
         """ Runs the action. """
-        existingprojects = self.client.project_proxy.get_list(
-            self.__proj.owner)
-        existingproject_names = [p.name for p in existingprojects]
-
-        delete_after_days = None if self.__delete_after_days == 0 else self.__delete_after_days
-        if self.__proj.name in existingproject_names:
-            logging.info(f"found project {self.__proj}, updating...")
-
+        func = None
+        chroots = None
+        exists = CoprActionProjectExists(proj=self.__proj).run()
+        if exists and not self.__update:
+            logging.info(
+                f"project {self.__proj} already exists. Skipping creation.")
+            return False
+        if not exists:
+            logging.info(f"create project {self.__proj}")
+            func = self.client.project_proxy.add
+            chroots = self.__chroots
+        else:
+            logging.info(f"project {self.__proj} already exists, updating...")
+            func = self.client.project_proxy.edit
             chroots = [] if self.__chroots is None else self.__chroots
 
             # First get existing chroots and only add new ones
@@ -75,29 +86,14 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
                 logging.info(
                     f"add these chroots to the project: {diff_chroots}")
             new_chroots.update(chroots)
+            chroots = list(new_chroots)
 
-            self.client.project_proxy.edit(
-                ownername=self.__proj.owner,
-                projectname=self.__proj.name,
-                description=self.__description,
-                instructions=self.__instructions,
-                enable_net=True,
-                multilib=True,
-                chroots=list(new_chroots),
-                devel_mode=True,
-                appstream=False,
-                runtime_dependencies=self.runtime_dependencies,
-                delete_after_days=delete_after_days)
-            return True
-
-        logging.info(f"create project {self.__proj}")
         # NOTE: devel_mode=True means that one has to manually create the
-        # repo.
-
-        self.client.project_proxy.add(
+        # repo
+        func(
             ownername=self.__proj.owner,
             projectname=self.__proj.name,
-            chroots=self.__chroots,
+            chroots=chroots,
             description=self.__description,
             instructions=self.__instructions,
             enable_net=True,
@@ -105,5 +101,6 @@ class CoprActionMakeOrEditProject(CoprAction, CoprClientMixin):
             devel_mode=True,
             appstream=False,
             runtime_dependencies=self.runtime_dependencies,
-            delete_after_days=delete_after_days)
+            delete_after_days=self.__delete_after_days)
+
         return True

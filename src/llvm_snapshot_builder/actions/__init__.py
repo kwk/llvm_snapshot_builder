@@ -8,8 +8,8 @@ from .cancel_builds import CoprActionCancelBuilds
 from .delete_builds import CoprActionDeleteBuilds
 from .delete_project import CoprActionDeleteProject
 from .fork_project import CoprActionForkProject
-from .make_or_edit_packages import CoprActionMakeOrEditPackages
-from .make_or_edit_project import CoprActionMakeOrEditProject
+from .create_packages import CoprActionCreatePackages
+from .create_project import CoprActionCreateProject
 from .project_exists import CoprActionProjectExists
 from .action import CoprAction
 from .regenerate_repos import CoprActionRegenerateRepos
