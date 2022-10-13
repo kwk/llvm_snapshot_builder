@@ -33,16 +33,18 @@ class CoprPackageBuilderMixin:
         """
         logging.info(
             f"adjust chroot {chroot} to have --with=snapshot_build and llvm-snapshot-builder package installed")
+        # pylint: disable=line-too-long
         self.client.project_chroot_proxy.edit(
             ownername=proj.owner,
             projectname=proj.name,
             chrootname=chroot,
             with_opts="snapshot_build",
             additional_repos=[
-                "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-snapshot-builder/",
-                "https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/"
+                f"https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-snapshot-builder/{chroot}/"
+                f"https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/{chroot}/"
             ],
             additional_packages="llvm-snapshot-builder")
+        # pylint: enable=line-too-long
 
     # pylint: disable=too-many-arguments
     def build(
