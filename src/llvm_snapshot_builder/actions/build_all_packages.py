@@ -30,7 +30,8 @@ class CoprActionBuildAllPackages(
             timeout: int = None,
             ** kwargs):
         """ Initializes the action. """
-        if chroots is None:
+        if len(chroots) == 0:
+            logging.info(f"no chroots given, using default chroots {CoprActionCreateProject.default_chroots}")
             chroots = CoprActionCreateProject.default_chroots
         self.__chroots = chroots
         self.__proj = CoprProjectRef(proj)
@@ -44,7 +45,7 @@ class CoprActionBuildAllPackages(
         for chroot in self.__chroots:
             params = {
                 "proj": self.__proj,
-                "chroots": chroot,
+                "chroots": [chroot],
                 "timeout": self.__timeout,
             }
             logging.info(f"build all packages in chroot: {chroot}")
