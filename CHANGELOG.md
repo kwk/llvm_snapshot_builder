@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.0 (2022-10-13)
+### Feature
+* Fix and test build-all-packages ([`9d1c84c`](https://github.com/kwk/llvm_snapshot_builder/commit/9d1c84c92b138224c08398a8417528f2031efe18))
+
 ## v1.0.0 (2022-10-13)
 ### Feature
 * Rename commands and introduce --update and test CLI ([`0c5f0eb`](https://github.com/kwk/llvm_snapshot_builder/commit/0c5f0eb898bdcfba1c0bdee020642accdd3beabe))
