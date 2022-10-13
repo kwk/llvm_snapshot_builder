@@ -122,6 +122,12 @@ def build_main_parser() -> argparse.ArgumentParser:
         "type": str,
         "help": "list of chroots to work on"
     }
+    timeout_kwargs = {
+        "dest": 'timeout',
+        "default": 30 * 3600,
+        "type": int,
+        "help": "build timeout in seconds for each package (defaults to: 30*3600=108000)"
+    }
     parser = argparse.ArgumentParser(
         description='Interact with the LLVM snapshot builds on Fedora Copr.',
         allow_abbrev=True)
@@ -173,6 +179,7 @@ def build_main_parser() -> argparse.ArgumentParser:
         CMD_BUILD_ALL_PACKAGES, help='build packages')
     parser_build_all_packages.add_argument('--proj', **proj_kwargs)
     parser_build_all_packages.add_argument('--chroots', **chroots_kwargs)
+    parser_build_all_packages.add_argument('--timeout', **timeout_kwargs)
 
     # CREATE PACKAGES
 
@@ -207,12 +214,7 @@ def build_main_parser() -> argparse.ArgumentParser:
         nargs='+',
         type=str,
         help="list of LLVM packagenames to build in order")
-    parser_build_packages.add_argument(
-        '--timeout',
-        dest='timeout',
-        default=30 * 3600,
-        type=int,
-        help="build timeout in seconds for each package (defaults to: 30*3600=108000)")
+    parser_build_packages.add_argument('--timeout', **timeout_kwargs)
     parser_build_packages.add_argument(
         '--wait-on-build-id',
         dest='wait_on_build_id',
