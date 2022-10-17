@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v1.1.6 (2022-10-17)
+
+
 ## v1.1.5 (2022-10-14)
 ### Fix
 * Llvm-snapshot-builder repo URL ([`4a1f4db`](https://github.com/kwk/llvm_snapshot_builder/commit/4a1f4db0241d6912c99bb2ea378d1113737f27ee))
