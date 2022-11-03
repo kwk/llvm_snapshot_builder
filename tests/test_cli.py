@@ -10,6 +10,7 @@ from copr.v3.exceptions import CoprNoResultException
 from llvm_snapshot_builder.mixins.client_mixin import CoprClientMixin
 from llvm_snapshot_builder.cli import main
 from llvm_snapshot_builder import __version__
+from llvm_snapshot_builder import CoprProjectRef
 
 # TODO(kwk): Implement recipe tests as I did in Golang for fabric8-wit
 
@@ -19,6 +20,7 @@ class TestCLI(unittest.TestCase):
 
     def setUp(self) -> None:
         self.owner = CoprClientMixin().client.config["username"]
+        self.project_prefix = "llvm_snapshot_builder_test_"
 
     @contextmanager
     def get_text_file(self, text: str) -> str:
@@ -40,7 +42,7 @@ class TestCLI(unittest.TestCase):
         """ Test project-exists command. """
         self.assertTrue(main(['project-exists', "--proj", "@copr/copr"]))
         self.assertFalse(
-            main(['project-exists', "--proj", f"@copr/{uuid.uuid4()}"]))
+            main(['project-exists', "--proj", f"@copr/{self.project_prefix}{uuid.uuid4()}"]))
 
     def test_version(self):
         """ Test version flag command. """
@@ -54,7 +56,7 @@ class TestCLI(unittest.TestCase):
 
     def test_create_project_ok(self):
         """ Test create-project command. """
-        ref = f"{self.owner}/{uuid.uuid4()}"
+        ref = f"{self.owner}/{self.project_prefix}{uuid.uuid4()}"
         self.assertFalse(main(['project-exists', "--proj", ref]))
 
         with self.get_text_file(text="foobar description") as description:
@@ -72,7 +74,7 @@ class TestCLI(unittest.TestCase):
 
     def test_create_project_with_update(self):
         """ Test create-project command. """
-        ref = f"{self.owner}/{uuid.uuid4()}"
+        ref = f"{self.owner}/{self.project_prefix}{uuid.uuid4()}"
         self.assertFalse(main(['project-exists', "--proj", ref]))
 
         with self.get_text_file(text="foobar description") as description:
@@ -90,7 +92,8 @@ class TestCLI(unittest.TestCase):
 
     def test_create_and_build_packages(self):
         """ Tests create-packages and build-packages commands. """
-        ref = f"{self.owner}/{uuid.uuid4()}"
+        proj = CoprProjectRef(f"{self.owner}/{self.project_prefix}{uuid.uuid4()}")
+        ref = str(proj)
         self.assertFalse(main(['project-exists', "--proj", ref]))
         self.assertTrue(main(['create-project', "--proj", ref]))
         self.assertTrue(main(['project-exists', "--proj", ref]))
@@ -118,7 +121,7 @@ class TestCLI(unittest.TestCase):
 
     def test_create_and_build_all_packages(self):
         """ Tests create-packages and build-all-packages commands. """
-        ref = f"{self.owner}/{uuid.uuid4()}"
+        ref = f"{self.owner}/{self.project_prefix}{uuid.uuid4()}"
         self.assertTrue(main(['create-project', "--proj", ref]))
         self.assertTrue(main(['create-packages', "--proj", ref]))
         self.assertTrue(
@@ -131,7 +134,7 @@ class TestCLI(unittest.TestCase):
         Tests create-packages and build-all-packages with manually specified
         chroots and one that was not set up onecommands.
         """
-        ref = f"{self.owner}/{uuid.uuid4()}"
+        ref = f"{self.owner}/{self.project_prefix}{uuid.uuid4()}"
         self.assertTrue(main(['create-project',
                               "--proj",
                               ref,

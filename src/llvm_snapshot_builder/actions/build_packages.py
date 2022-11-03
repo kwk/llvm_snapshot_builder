@@ -73,7 +73,8 @@ class CoprActionBuildPackages(
                 if build != {}:
                     previous_build_id = build.id
                     logging.info(
-                        f"(build-id={previous_build_id}, state={build.state})")
+                        f"URL: https://copr.fedorainfracloud.org/coprs/{self.__proj.owner}"
+                        f"/{self.__proj.name}/build/{previous_build_id}/")
                 else:
                     logging.warning(
                         f"skipped build of package {package_name} in chroot {chroot}")
