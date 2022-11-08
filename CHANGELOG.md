@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.0 (2022-11-08)
+### Feature
+* Output build URL for individual builds (not all yet) ([`2a41aa1`](https://github.com/kwk/llvm_snapshot_builder/commit/2a41aa16ecec6340ec0b29172755ebed22234f28))
+
 ## v1.1.6 (2022-10-17)
 
 
