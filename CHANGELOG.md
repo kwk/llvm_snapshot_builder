@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.3 (2022-11-18)
+### Documentation
+* **code of conduct:** Added code of conduct file ([#8](https://github.com/kwk/llvm_snapshot_builder/issues/8)) ([`5bfd265`](https://github.com/kwk/llvm_snapshot_builder/commit/5bfd265e4263ae619e84d271d4bc735fd420f4bd))
+* **code of conduct:** Added code of conduct file ([`ea1401b`](https://github.com/kwk/llvm_snapshot_builder/commit/ea1401bad7a173c84c5bdf5df773e26635c56544))
+
 ## v1.2.2 (2022-11-18)
 ### Fix
 * **security:** Update deps ([#2](https://github.com/kwk/llvm_snapshot_builder/issues/2)) ([`9b129e1`](https://github.com/kwk/llvm_snapshot_builder/commit/9b129e16c79f6ae533ec926b2568b3f20540e0cb))
