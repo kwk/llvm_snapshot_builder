@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.2 (2022-11-18)
+### Fix
+* **security:** Update deps ([#2](https://github.com/kwk/llvm_snapshot_builder/issues/2)) ([`9b129e1`](https://github.com/kwk/llvm_snapshot_builder/commit/9b129e16c79f6ae533ec926b2568b3f20540e0cb))
+* **security:** Update deps ([`5c64b5c`](https://github.com/kwk/llvm_snapshot_builder/commit/5c64b5c47048914eb4d1effa9149afd10d860e67))
+
 ## v1.2.1 (2022-11-18)
 
 
