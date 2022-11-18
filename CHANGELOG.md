@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.4 (2022-11-18)
+### Fix
+* **security:** Update pylint from 2.15.2 to 2.15.5 ([`bfb17d9`](https://github.com/kwk/llvm_snapshot_builder/commit/bfb17d99036d43250424f1ad9292d4ec4fe77e40))
+
 ## v1.2.3 (2022-11-18)
 ### Documentation
 * **code of conduct:** Added code of conduct file ([#8](https://github.com/kwk/llvm_snapshot_builder/issues/8)) ([`5bfd265`](https://github.com/kwk/llvm_snapshot_builder/commit/5bfd265e4263ae619e84d271d4bc735fd420f4bd))
