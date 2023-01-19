@@ -41,5 +41,5 @@ class CoprActionCancelBuilds(
             logging.info(f"cancel build {build.id}")
             self.client.build_proxy.cancel(build.id)
             return True
-        self.walk(func=cancel_build)
+        self.walk_builds(func=cancel_build)
         return True
