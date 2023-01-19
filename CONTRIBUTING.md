@@ -83,6 +83,28 @@ Ready to contribute? Here's how to set up `llvm_snapshot_builder` for local deve
 
 8. Commit your changes and open a pull request.
 
+## Run tests
+
+After you've completed steps 1-4 from the previous steps you need to setup your
+Copr credentials by going to https://copr.fedorainfracloud.org/api/ and then
+creating a `~/.config/copr` file according to the information on the website.
+This project will automatically pick up the config from that file in order to
+connect you to copr and create test projects for you in there when you run tests.
+
+Run all tests by executing:
+
+    ```console
+    $ poetry run pytest
+    ```
+
+In order to run an intivial test, try this:
+
+    ```console
+    pytest tests/test_cli.py::TestCLI::test_project_exists
+    ```
+
+And adjust the path to the test you want to run.
+
 ## Pull Request Guidelines
 
 Before you submit a pull request, check that it meets these guidelines:
