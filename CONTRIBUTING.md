@@ -42,22 +42,46 @@ If you are proposing a feature:
 
 Ready to contribute? Here's how to set up `llvm_snapshot_builder` for local development.
 
-1. Download a copy of `llvm_snapshot_builder` locally.
-2. Install `llvm_snapshot_builder` using `poetry`:
+1. Download the sources:
 
-    ```console
-    $ poetry install
-    ```
+     ```console
+     $ git clone git@github.com:kwk/llvm_snapshot_builder.git
+     ```
 
-3. Use `git` (or similar) to create a branch for local development and make your changes:
+2. Enter the source directory:
+
+     ```console
+     $ cd llvm_snapshot_builder
+     ```
+3. Create a virtual environment using:
+
+     ```console
+     $ poetry shell`
+     ```
+
+4. Install the sources into the virtual environment that you're in:
+
+     ```console
+     $ poetry install
+     ```
+
+5. Try out the CLI tool:
+
+     ```console
+     $ llvm_sb
+     ```
+
+   You should see some help showing up there.
+
+6. Use `git` (or similar) to create a branch for local development and make your changes:
 
     ```console
     $ git checkout -b name-of-your-bugfix-or-feature
     ```
 
-4. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
+7. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
 
-5. Commit your changes and open a pull request.
+8. Commit your changes and open a pull request.
 
 ## Pull Request Guidelines
 
