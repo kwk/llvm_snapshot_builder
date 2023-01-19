@@ -17,6 +17,12 @@ keywords = [
     "Builder"
 ]
 
+# See https://python-poetry.org/docs/pyproject/#scripts
+# See https://dev.to/bowmanjd/build-command-line-tools-with-python-poetry-4mnc
+[tool.poetry.scripts]
+llvm_sb = "llvm_snapshot_builder.cli:main"
+
+
 [tool.poetry.dependencies]
 python = ">=3.9,<4"
 copr = "^1.124"
