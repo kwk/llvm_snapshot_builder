@@ -30,11 +30,11 @@ class CoprBuildWalkerMixin:
         """ Returns the filtered build IDs """
         return self.__batch_ids
 
-    def walk(self, func: Callable[..., bool] = None) -> bool:
+    def walk_builds(self, func: Callable[..., bool] = None) -> bool:
         """
         Walks over every filtered build and optionally (if given) calls `func`
-        with the current build object. When `func` returns `False`, the `walk`
-        function stops returns `False` as well.
+        with the current build object. When `func` returns `False`, the
+        `walk_builds` function stops returns `False` as well.
 
         Along the way, this function populates the `filtered_build_ids` property
         with the builds that were filtered. This can be used for copr operations
