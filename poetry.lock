@@ -373,13 +373,13 @@ files = [
 
 [[package]]
 name = "copr"
-version = "1.123"
+version = "1.124"
 description = "Python client for copr service."
 category = "main"
 optional = false
 python-versions = "*"
 files = [
-    {file = "copr-1.123.tar.gz", hash = "sha256:463785a1fe4b493b20928164f96d52f9d190d744f39ca117f1d10db542675995"},
+    {file = "copr-1.124.tar.gz", hash = "sha256:c97f9e0406f532f419791ee17a9b8aa6cf4d8bb2777ddae0d948ce9881f49764"},
 ]
 
 [package.dependencies]
@@ -3278,4 +3278,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<4"
-content-hash = "332b785309f7e2d0eff64ced850bdaeeec67526a76d1246888ae41eaceadae4a"
+content-hash = "831d5d423beb4851dabfa79e79f4d73e0cd87749da440f72e2f0de97eab8f819"
