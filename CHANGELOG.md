@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v1.2.8 (2023-01-19)
+### Documentation
+* **script tool:** Add alternative llvm_sb tool ([`b12f468`](https://github.com/kwk/llvm_snapshot_builder/commit/b12f468e94288a95a13e6412d9836e0498955d21))
+* **running tests:** Add information on copr authentication ([`56f3597`](https://github.com/kwk/llvm_snapshot_builder/commit/56f3597af2b064a935e311ab1751f86cdf59b23a))
+* **contributing:** Update the contributing docs ([`d9705c5`](https://github.com/kwk/llvm_snapshot_builder/commit/d9705c591bbb667a94bf0cb48883d7b96c75352b))
+
 ## v1.2.7 (2023-01-19)
 
 
