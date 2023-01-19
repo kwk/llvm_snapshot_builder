@@ -23,7 +23,13 @@ For a more in-depth example, take a look at [the example in the documentation](h
 After installing you can explore the CLI program with:
 
 ```bash
-python -m llvm_snapshot_builder.cli --help
+$ python -m llvm_snapshot_builder.cli --help
+```
+
+or with:
+
+```console
+$ llvm_sb --help
 ```
 
 ## Contributing
