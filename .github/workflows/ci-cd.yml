@@ -124,6 +124,7 @@ jobs:
             pip install \
             --index-url https://test.pypi.org/simple/ \
             --extra-index-url https://pypi.org/simple \
+            --use-pep517 \
             llvm_snapshot_builder
 
       - name: Publish to PyPI

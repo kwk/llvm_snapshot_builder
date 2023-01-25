@@ -28,14 +28,24 @@ class CoprActionBuildAllPackages(
             proj: Union[CoprProjectRef, str],
             chroots: list[str] = None,
             timeout: int = None,
+            without_tests:bool = True,
             ** kwargs):
-        """ Initializes the action. """
+        """
+        Initializes the action.
+
+        Args:
+            proj (Union[CoprProjectRef, str]): the Copr project to use
+            chroots (list): Chroots to build in. Defaults to default chroots from CoprActionMakeOrEditProject.
+            timeout (int): the number of seconds until to timeout the individual builds
+            without_tests (bool): will add --without=check to the mock chroot (default: False)
+        """
         if len(chroots) == 0:
             logging.info(f"no chroots given, using default chroots {CoprActionCreateProject.default_chroots}")
             chroots = CoprActionCreateProject.default_chroots
         self.__chroots = chroots
         self.__proj = CoprProjectRef(proj)
         self.__timeout = timeout
+        self.__without_tests = without_tests
         super().__init__(**kwargs)
 
     def run(self) -> bool:
@@ -43,7 +53,15 @@ class CoprActionBuildAllPackages(
 
         # pylint: disable=invalid-name
         for chroot in self.__chroots:
-            self.adjust_chroot(proj=self.__proj, chroot=chroot)
+            without_options = None
+            with_options = "snapshot_build"
+            if self.__without_tests:
+                without_options = "tests"
+            self.adjust_chroot(
+                proj=self.__proj,
+                chroot=chroot,
+                with_options=with_options,
+                without_options=without_options)
             params = {
                 "proj": self.__proj,
                 "chroots": [chroot],
