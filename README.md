@@ -1,3 +1,22 @@
+# DEPRECATION NOTICE
+
+THIS PROJECT IS DEPRECATED BECAUSE WE NO LONGER NEED A WRAPPER AROUND COPR. WE RUN THE COPR CLI MANUALLY FROM A FEDORA CONTAINER NOW (https://github.com/kwk/llvm-daily-fedora-rpms):
+
+```yaml
+jobs:
+  build-on-copr:
+    runs-on: ubuntu-latest
+    container: fedora:37
+    steps:
+      - name: Install Copr CLI
+        run: |
+          dnf install -y copr-cli
+```
+
+A good use of this project is to see how the poetry setup was arranged and how the pypi releases work there. Also the Python Multiple Inheritance stuff been done here is really nice to write and compose but it is hard to maintain. 
+
+-----
+
 # llvm_snapshot_builder
 
 Builds LLVM snapshots on Copr
