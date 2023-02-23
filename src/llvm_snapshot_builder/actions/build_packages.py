@@ -33,14 +33,18 @@ class CoprActionBuildPackages(
             chroots: list[str] = None,
             wait_on_build_id: int = None,
             timeout:int=None,
+            without_tests:bool = True,
             **kwargs):
         """
         Initializes the action.
 
         Args:
+            proj (Union[CoprProjectRef, str]): the Copr project to use
             package_names (list): Packages to build. Defaults to default packages from CoprActionMakeOrEditPackages.
             chroots (list): Chroots to build in. Defaults to default chroots from CoprActionMakeOrEditProject.
             wait_on_build_id (int): Wait for this build to finish before starting the build.
+            timeout (int): the number of seconds until to timeout the build
+            without_tests (bool): will add --without=check to the mock chroot (default: False)
         """
         self.__proj = CoprProjectRef(proj)
         if package_names is None:
@@ -51,6 +55,7 @@ class CoprActionBuildPackages(
             chroots = CoprActionCreateProject.default_chroots
         self.__chroots = chroots
         self.__timeout = timeout
+        self.__without_tests = without_tests
         self.__wait_on_build_id = wait_on_build_id
         super().__init__(**kwargs)
     # pylint: enable=too-many-arguments
@@ -59,7 +64,15 @@ class CoprActionBuildPackages(
         """ Runs the action. """
         logging.info(f"building packages {self.__package_names} in chroots {self.__chroots}")
         for chroot in self.__chroots:
-            self.adjust_chroot(proj=self.__proj, chroot=chroot)
+            without_options = None
+            with_options = "snapshot_build"
+            if self.__without_tests:
+                without_options = "tests"
+            self.adjust_chroot(
+                proj=self.__proj,
+                chroot=chroot,
+                with_options=with_options,
+                without_options=without_options)
             logging.info(
                 f"build packages ({self.__package_names}) in chroot: {chroot}")
             previous_build_id = self.__wait_on_build_id

@@ -23,13 +23,15 @@ class CoprPackageBuilderMixin:
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def adjust_chroot(self, proj: Union[CoprProjectRef, str], chroot: str):
+    def adjust_chroot(self, proj: Union[CoprProjectRef, str], with_options=None, without_options=None. chroot: str):
         """
         Adjusts the chroot to have --with=snapshot_build and llvm-snapshot-builder package installed.
 
         Keyword arguments:
             proj -- the project to adjust the chroot for
             chroot -- the chroot to adjust
+            with_options -- the options to enable, e.g. for --with=snapshot_build, set to snapshot_build
+            without_options -- the options to disable, e.g. for --without=tests, set to tests
         """
         logging.info(
             f"adjust chroot {chroot} to have --with=snapshot_build and llvm-snapshot-builder package installed")
@@ -38,7 +40,8 @@ class CoprPackageBuilderMixin:
             ownername=proj.owner,
             projectname=proj.name,
             chrootname=chroot,
-            with_opts="snapshot_build",
+            with_opts=with_options,
+            without_options=without_options,
             additional_repos=[
                 f"https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-snapshot-builder/{chroot}/",
                 f"https://download.copr.fedorainfracloud.org/results/%40fedora-llvm-team/llvm-compat-packages/{chroot}/"

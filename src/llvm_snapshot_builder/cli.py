@@ -180,6 +180,11 @@ def build_main_parser() -> argparse.ArgumentParser:
     subparser.add_argument('--proj', **proj_kwargs)
     subparser.add_argument('--chroots', **chroots_kwargs)
     subparser.add_argument('--timeout', **timeout_kwargs)
+    subparser.add_argument(
+        '--without-tests',
+        dest='without_tests',
+        action='store_true',
+        help="don't run %test secion from spec file")
 
     # CREATE PACKAGES
 
@@ -221,6 +226,11 @@ def build_main_parser() -> argparse.ArgumentParser:
         default=None,
         type=int,
         help="wait on the given build ID before starting the build")
+    subparser.add_argument(
+        '--without-tests',
+        dest='without_tests',
+        action='store_true',
+        help="don't run %test secion from spec file")
 
     # CANCEL BUILDS
 
